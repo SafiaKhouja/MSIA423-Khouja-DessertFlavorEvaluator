@@ -13,4 +13,4 @@ COPY . /app
 
 EXPOSE 5000
 
-CMD ["python3", "app.py"]
+CMD ["./app/boot.sh"]
