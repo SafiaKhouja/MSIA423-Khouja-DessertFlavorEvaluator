@@ -15,6 +15,7 @@
   * [1. Build the image](#1-build-the-image)
   * [2. Run the container](#2-run-the-container)
   * [3. Kill the container](#3-kill-the-container)
+  * [Workaround for potential Docker problem for Windows.](#workaround-for-potential-docker-problem-for-windows)
 
 <!-- tocstop -->
 
@@ -162,3 +163,19 @@ docker kill test
 ```
 
 where `test` is the name given in the `docker run` command.
+
+### Workaround for potential Docker problem for Windows.
+
+It is possible that Docker will have a problem with the bash script `app/boot.sh` that is used when running on a Windows machine. Windows can encode the script wrongly so that when it copies over to the Docker image, it is corrupted. If this happens to you, try using the alternate Dockerfile, `app/Dockerfile_windows`, i.e.:
+
+```bash
+ docker build -f app/Dockerfile_windows -t pennylane .
+```
+
+then run the same `docker run` command: 
+
+```bash
+docker run -p 5000:5000 --name test pennylane
+```
+
+The new image defines the entry command as `python3 app.py` instead of `./boot.sh`. Building the sample PennyLane image this way will require initializing the database prior to building the image so that it is copied over, rather than created when the container is run. Therefore, please **do the step [Create the database with a single song](#create-the-database-with-a-single-song) above before building the image**.
