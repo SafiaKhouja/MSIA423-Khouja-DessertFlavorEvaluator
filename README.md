@@ -1,9 +1,15 @@
-# MSiA 423 Project Repository
-Project creator: Safia Khouja   
-QA contributions: Daniel Halteh 
+# MSiA 423 Flavor Profile Evaluator for Desserts
+Project creator and Developer: Safia Khouja   
+(QA contributions: Daniel Halteh)   
+
+- [Project Charter](#project-charter)
+- [Project Backlog](#backlog)
+## Project Charter 
+
 
 ## Project Backlog
-## Project Charter 
+
+
 
 <!-- toc -->
 
