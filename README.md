@@ -1,5 +1,5 @@
 # MSiA 423 Project Repository
-Project creator: Safia Khouja 
+Project creator: Safia Khouja   
 QA contributions: Daniel Halteh 
 
 ## Project Backlog
