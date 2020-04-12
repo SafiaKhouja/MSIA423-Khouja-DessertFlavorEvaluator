@@ -5,6 +5,9 @@ Project creator and Developer: Safia Khouja
 - [Project Charter](#project-charter)
 - [Project Backlog](#backlog)
 ## Project Charter 
+### Vision 
+
+
 
 
 ## Project Backlog
