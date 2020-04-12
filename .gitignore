@@ -13,3 +13,5 @@ data/*
 !data/external/
 config/local
 !.gitkeep
+Icon
+.Rhistory
