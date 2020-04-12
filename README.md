@@ -1,4 +1,9 @@
-# MSiA423 Template Repository
+# MSiA 423 Project Repository
+Project creator: Safia Khouja 
+QA contributions: Daniel Halteh 
+
+## Project Backlog
+## Project Charter 
 
 <!-- toc -->
 
