@@ -3,7 +3,7 @@ Project creator and Developer: Safia Khouja
 (QA contributions: Daniel Halteh)   
 
 - [Project Charter](#project-charter)
-- [Project Backlog](#backlog)
+- [Project Backlog](#project-backlog)
 ## Project Charter 
 ### Vision 
 
@@ -13,7 +13,7 @@ Project creator and Developer: Safia Khouja
 ## Project Backlog
 
 
-
+# MSiA 423 Project Template
 <!-- toc -->
 
 - [Directory structure](#directory-structure)
