@@ -10,7 +10,7 @@ Project creator and Developer: Safia Khouja
 ## Project Backlog
 
 
-
+# MSiA 423 Project Template
 <!-- toc -->
 
 - [Directory structure](#directory-structure)
