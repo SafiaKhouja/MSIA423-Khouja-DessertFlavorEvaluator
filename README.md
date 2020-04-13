@@ -31,7 +31,36 @@ The model will be deployed if it can predict the ratings of flavor combinations 
 		- **Story 7**: Try out additional models *(icebox)*
 		- **Story 8**: Select best model. Review model and accompanying code with QA partner *(medium, backlog)*
 
-	- **Epic 2**: Develop a recipe recommender that suggests popular recipes based on the inputted flavor combination 
+	- **Epic 2**: Develop a dessert recommender that suggests popular recipes based on the inputted flavor combination 
+		- **Story 1**: Write code to filter recipes by flavor combination. *(small, backlog, next two weeks)* 
+		- **Story 2**: Write code to determine the most popular recipes post-filtering, taking into account both rating and number of ratings *(medium, backlog, next two weeks)* 
+		- **Story 3**: Determine the best way to present recipe suggestions along with their ratings *(small, backlog, next two weeks)* 
+		- **Story 4**: Review recipe suggestion process and accompanying code with QA partner *(medium, backlog)*
+
+- **Initiative 2**: Application Development and Cloud Infrastructure
+	- **Epic 1**: Backend development and cloud setup
+		- **Story 1**: Set up environment and Docker. *(medium, backlog, next two weeks)* 
+		- **Story 2**: Employ a running RDS instance a data table *(medium, backlog)*
+		- **Story 3**:  Use an S3 bucket to store the data.  *(medium, backlog)*
+		- **Story 4**: Migrate code to scripts and incorporate model and recommender into the app *(medium, backlog)*
+		- **Story 5**: write unit tests, and log *(to be done throughout the process)* 
+		- **Story 6**: Review and test the requirements file *(small, backlog)*
+
+	- **Epic 2**: Frontend development 
+		- **Story 1**: Create application using HTML/CSS and Flask *(large, backlog)* 
+		- **Story 2**: Put finishing touches and improve GUI *(medium, backlog)* 
+
+- **Initiative 3**: Final product and evaluation
+	- **Epic 1**: Putting it all together to create the final product
+		- **Story 1**: Finalize Github repository *(medium, backlog)* 
+		- **Story 2**: Create final presentation *(long, backlog)* 
+	- **Epic 2**: Evaluate product success 
+		- **Story 1**: Evaluate product success using A/B testing *(icebox)* 
+		- **Story 2**: Evaluate user engagement by tracking clicks *(icebox) 
+
+
+
+
 
 
 
