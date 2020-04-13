@@ -20,9 +20,19 @@ The model will be deployed if it can predict the ratings of flavor combinations 
 
 * The description in italics after every story details the predicted size of story, backlog vs icebox status, and when the task is planned for. 
 
-### Initiative 1: Build the model and recommender 
-- Epic 1: Develop model that predicts the rating of a given flavor combination
-	- Story 1: Learn more about the data to better understand how Epicurious and its readers collect, interact with, and use the data. *(small, backlog, next two weeks)*
+- **Initiative 1**: Build the model and recommender 
+	- **Epic 1**: Develop model that predicts the rating of a given flavor combination
+		- **Story 1**: Learn more about the data to better understand how Epicurious and its readers collect, interact with, and use the data. *(small, backlog, next two weeks)*
+		- **Story 2**: Scrape data from Epicurious to add a column for number of reviews to the dataset. The number of reviews will help contextualize the rating. *(medium, backlog, next two weeks)*
+		- **Story 3**: Perform exploratory data analysis *(small, backlog, next two weeks)*
+		- **Story 4**: Clean data by taking care of missing values, repeated values, and confusing values. Make the flavor values into dummy variables and drop irrelevant flavors. *(medium, backlog, next two weeks)*
+		- **Story 5**: Split the data into a training and testing set *(x-small, backlog)*
+		- **Story 6**: Test several supervised learning methods to the data, including random forest, XGBoost, and neural networks. Use cross validation to determine which model fits the data best. *(x-large, backlog)*
+		- **Story 7**: Try out additional models *(icebox)*
+		- **Story 8**: Select best model. Review model and accompanying code with QA partner *(medium, backlog)*
+
+	- **Epic 2**: Develop a recipe recommender that suggests popular recipes based on the inputted flavor combination 
+
 
 
 # MSiA 423 Project Template
