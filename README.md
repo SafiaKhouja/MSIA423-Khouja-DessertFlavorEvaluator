@@ -18,7 +18,7 @@ The model will be deployed if it can predict the ratings of flavor combinations 
 
 ## Project Backlog
 
-* The description in italics after every story details the predicted size of story, backlog vs icebox status, and when the task is planned for. 
+Note: The description in italics after every story details the predicted size of story, backlog vs icebox status, and when the task is planned for. 
 
 - **Initiative 1**: Build the model and recommender 
 	- **Epic 1**: Develop model that predicts the rating of a given flavor combination
