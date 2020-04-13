@@ -1,4 +1,4 @@
-# MSiA 423 Flavor Profile Evaluator for Desserts
+# MSiA 423 Dessert Flavor Evaluator 
 Project creator and Developer: Safia Khouja   
 (QA contributions: Daniel Halteh)   
 
@@ -6,17 +6,23 @@ Project creator and Developer: Safia Khouja
 - [Project Backlog](#project-backlog)
 ## Project Charter 
 ### Vision 
-Everybody loves dessert, but not everybody knows how to create delicious and exciting desserts. This app helps dessert-lovers generate creative flavor combinations to explore in their own kitchens! Long-gone are the days of choosing between flavors like vanilla or chocolate. With the help of my app, dessert-lovers are inspired to bake and cook refreshingly new creations that combine classical flavors, refreshing fruits, and exciting spices 
+Everybody loves dessert, but not everybody knows how to create delicious and exciting treats. This app helps dessert-lovers generate creative flavor combinations to explore in their own kitchens! Long-gone are the days of choosing between flavors like vanilla or chocolate. With the help of my app, dessert-lovers are inspired to bake and cook impressive new creations that combine classical flavors, refreshing fruits, and exciting spices 
 
 ### Mission 
-Users will input a combination of dessert flavors and the app will predict the rating of this flavor combination. The app will also suggest the most popular desserts matching that flavor combination for inspiration. The data for this project was scraped from the popular recipe website Epicurious (https://www.kaggle.com/keytarrockstar/dessert-flavor-combinations/data). 
+Users will input a combination of dessert flavors and the app will predict the rating of this flavor combination. The app will also recommend the most popular desserts matching that flavor combination for inspiration. The data for this project was scraped from the popular recipe website Epicurious (https://www.kaggle.com/keytarrockstar/dessert-flavor-combinations/data). 
 
 Theoretical example: A user who is curious about the combination of vanilla + raspberry + rhubarb would enter those flavors into the app. The app would then predict that this flavor combination has a rating of 3.5/4 and suggest highly-rated desserts such as *Rhubarb and Raspberry Crostata* and *Rhubarb and Raspberry Jam Roly-Poly*. Based on this positive output, the user would then be empowered to pursue this flavor combination by baking one of the suggested desserts or creating a completely new recipe using these flavors.
 
 ### Success Criteria 
-The model will be deployed if it can predict dessert ratings of a given flavor combination with an accuracy threshold of 0.7. To determine the success of my app among users, standard A/B testing will be used to compare the ratings of desserts made by people who did not consult the app to the ratings of desserts made by people who consulted my app about the flavor profile they intended to pursue. Overall, a successful deployment of this app will help dessert-lovers create delicious and innovative desserts. 
+The model will be deployed if it can predict the ratings of flavor combinations in the test set with a cross validation R^2 of 0.7. To determine the success of my app among users, standard A/B testing will be used to compare the ratings of desserts made by people who did not consult the app to the ratings of desserts made by people who consulted my app about the flavor profile they intended to pursue. Overall, a successful deployment of this app will help dessert-lovers create delicious and innovative desserts. 
 
 ## Project Backlog
+
+* The description in italics after every story details the predicted size of story, backlog vs icebox status, and when the task is planned for. 
+
+### Initiative 1: Build the model and recommender 
+- Epic 1: Develop model that predicts the rating of a given flavor combination
+	- Story 1: Learn more about the data to better understand how Epicurious and its readers collect, interact with, and use the data. *(small, backlog, next two weeks)*
 
 
 # MSiA 423 Project Template
