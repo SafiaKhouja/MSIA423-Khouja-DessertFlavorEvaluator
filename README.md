@@ -27,7 +27,7 @@ Note: The description in italics after every story details the predicted size of
 		- **Story 3**: Perform exploratory data analysis *(small, backlog, next two weeks)*
 		- **Story 4**: Clean data by taking care of missing values, repeated values, and confusing values. Make the flavor values into dummy variables and drop irrelevant flavors. *(medium, backlog, next two weeks)*
 		- **Story 5**: Split the data into a training and testing set *(x-small, backlog)*
-		- **Story 6**: Test several supervised learning methods to the data, including random forest, XGBoost, and neural networks. Use cross validation to determine which model fits the data best. *(x-large, backlog)*
+		- **Story 6**: Test several supervised learning methods on the data, including random forest, XGBoost, and neural networks. Use cross validation to determine which model fits the data best. *(x-large, backlog)*
 		- **Story 7**: Try out additional models *(icebox)*
 		- **Story 8**: Select best model. Review model and accompanying code with QA partner *(medium, backlog)*
 
@@ -41,9 +41,9 @@ Note: The description in italics after every story details the predicted size of
 	- **Epic 1**: Backend development and cloud setup
 		- **Story 1**: Set up environment and Docker. *(medium, backlog, next two weeks)* 
 		- **Story 2**: Employ a running RDS instance a data table *(medium, backlog)*
-		- **Story 3**:  Use an S3 bucket to store the data.  *(medium, backlog)*
+		- **Story 3**: Use an S3 bucket to store the data.  *(medium, backlog)*
 		- **Story 4**: Migrate code to scripts and incorporate model and recommender into the app *(medium, backlog)*
-		- **Story 5**: write unit tests, and log *(to be done throughout the process)* 
+		- **Story 5**: Write unit tests and log *(to be done throughout the process)* 
 		- **Story 6**: Review and test the requirements file *(small, backlog)*
 
 	- **Epic 2**: Frontend development 
@@ -51,12 +51,13 @@ Note: The description in italics after every story details the predicted size of
 		- **Story 2**: Put finishing touches and improve GUI *(medium, backlog)* 
 
 - **Initiative 3**: Final product and evaluation
-	- **Epic 1**: Putting it all together to create the final product
+	- **Epic 1**: Put it all together to create the final product
 		- **Story 1**: Finalize Github repository *(medium, backlog)* 
 		- **Story 2**: Create final presentation *(long, backlog)* 
+		
 	- **Epic 2**: Evaluate product success 
 		- **Story 1**: Evaluate product success using A/B testing *(icebox)* 
-		- **Story 2**: Evaluate user engagement by tracking clicks *(icebox) 
+		- **Story 2**: Evaluate user engagement by tracking clicks *(icebox)*
 
 
 
