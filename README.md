@@ -21,7 +21,7 @@ The model will be deployed if it can predict the ratings of flavor combinations 
 Note: The description in italics after every story details the predicted size of story, backlog vs icebox status, and when the task is planned for. 
 
 - **Initiative 1**: Build the model and recommender 
-	- **Epic 1**: Develop model that predicts the rating of a given flavor combination
+	- **Epic 1**: Develop model for potential production use that predicts the rating of a given flavor combination  
 		- **Story 1**: Learn more about the data to better understand how Epicurious and its readers collect, interact with, and use the data. *(small, backlog, next two weeks)*
 		- **Story 2**: Scrape data from Epicurious to add a column for number of reviews to the dataset. The number of reviews will help contextualize the rating. *(medium, backlog, next two weeks)*
 		- **Story 3**: Perform exploratory data analysis *(small, backlog, next two weeks)*
@@ -31,31 +31,30 @@ Note: The description in italics after every story details the predicted size of
 		- **Story 7**: Try out additional models *(icebox)*
 		- **Story 8**: Select best model. Review model and accompanying code with QA partner *(medium, backlog)*
 
-	- **Epic 2**: Develop a dessert recommender that suggests popular recipes based on the inputted flavor combination 
+	- **Epic 2**: Develop a dessert recommender for potential production use that suggests popular recipes based on the inputted flavor combination 
 		- **Story 1**: Write code to filter recipes by flavor combination. *(small, backlog, next two weeks)* 
 		- **Story 2**: Write code to determine the most popular recipes post-filtering, taking into account both rating and number of ratings *(medium, backlog, next two weeks)* 
 		- **Story 3**: Determine the best way to present recipe suggestions along with their ratings *(small, backlog, next two weeks)* 
 		- **Story 4**: Review recipe suggestion process and accompanying code with QA partner *(medium, backlog)*
 
 - **Initiative 2**: Application Development and Cloud Infrastructure
-	- **Epic 1**: Backend development and cloud setup
+	- **Epic 1**: Backend development and cloud setup to support the application
 		- **Story 1**: Set up environment and Docker. *(medium, backlog, next two weeks)* 
-		- **Story 2**: Employ a running RDS instance a data table *(medium, backlog)*
+		- **Story 2**: Employ a running RDS instance. *(medium, backlog)*
 		- **Story 3**: Use an S3 bucket to store the data.  *(medium, backlog)*
 		- **Story 4**: Migrate code to scripts and incorporate model and recommender into the app *(medium, backlog)*
 		- **Story 5**: Write unit tests and log *(to be done throughout the process)* 
 		- **Story 6**: Review and test the requirements file *(small, backlog)*
 
-	- **Epic 2**: Frontend development 
+	- **Epic 2**: Frontend development to create a user-friendly interface 
 		- **Story 1**: Create application using HTML/CSS and Flask *(large, backlog)* 
 		- **Story 2**: Put finishing touches and improve GUI *(medium, backlog)* 
 
 - **Initiative 3**: Final product and evaluation
-	- **Epic 1**: Put it all together to create the final product
+	- **Epic 1**: Create the final product
 		- **Story 1**: Finalize Github repository *(medium, backlog)* 
 		- **Story 2**: Create final presentation *(long, backlog)* 
-		
-	- **Epic 2**: Evaluate product success 
+	- **Epic 2**: Evaluate product success from a business standpoint
 		- **Story 1**: Evaluate product success using A/B testing *(icebox)* 
 		- **Story 2**: Evaluate user engagement by tracking clicks *(icebox)*
 
