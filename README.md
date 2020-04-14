@@ -14,7 +14,7 @@ Users will input a combination of dessert flavors and the app will predict the r
 Theoretical example: A user who is curious about the combination of vanilla + raspberry + rhubarb would enter those flavors into the app. The app would then predict that this flavor combination has a rating of 3.5/4 and suggest highly-rated desserts such as *Rhubarb and Raspberry Crostata* and *Rhubarb and Raspberry Jam Roly-Poly*. Based on this positive output, the user would then be empowered to pursue this flavor combination by baking one of the suggested desserts or creating a completely new recipe using these flavors.
 
 ### Success Criteria 
-The model will be deployed if it can predict the ratings of flavor combinations in the test set with a cross validation R^2 of 0.7. To determine the success of my app among users, standard A/B testing will be used to compare the ratings of desserts made by people who did not consult the app to the ratings of desserts made by people who consulted my app about the flavor profile they intended to pursue. Overall, a successful deployment of this app will help dessert-lovers create delicious and innovative desserts. 
+The model will be deployed if it can predict the ratings of flavor combinations in the test set with a cross validation R^2 of 0.7. To determine the business success of my app among users, standard A/B testing will be used to compare the average rating of desserts made by people who did not consult the app to the average rating of desserts made by people who consulted my app about the flavor profile they intended to pursue. Overall, a successful deployment of this app will help dessert-lovers create delicious and innovative desserts. 
 
 ## Project Backlog
 
