@@ -9,7 +9,7 @@ Project creator and Developer: Safia Khouja
 Everybody loves dessert, but not everybody knows how to create delicious and exciting treats. This app helps dessert-lovers generate creative flavor combinations to explore in their own kitchens! Long-gone are the days of choosing between flavors like vanilla or chocolate. With the help of my app, dessert-lovers are inspired to bake and cook impressive new creations that combine classical flavors, refreshing fruits, and exciting spices 
 
 ### Mission 
-Users will input a combination of dessert flavors and the app will predict the rating of this flavor combination. The app will also recommend the most popular desserts matching that flavor combination for inspiration. The data for this project was scraped from the popular recipe website Epicurious (https://www.kaggle.com/keytarrockstar/dessert-flavor-combinations/data). 
+Users will input a combination of dessert flavors and the app will predict the rating of this flavor combination. The app will also recommend the most popular desserts matching that flavor combination for inspiration. The data for this project was scraped from the popular recipe website Epicurious (https://www.kaggle.com/keytarrockstar/dessert-flavor-combinations/data, https://archive.org/download/recipes-en-201706/). 
 
 Theoretical example: A user who is curious about the combination of vanilla + raspberry + rhubarb would enter those flavors into the app. The app would then predict that this flavor combination has a rating of 3.5/4 and suggest highly-rated desserts such as *Rhubarb and Raspberry Crostata* and *Rhubarb and Raspberry Jam Roly-Poly*. Based on this positive output, the user would then be empowered to pursue this flavor combination by baking one of the suggested desserts or creating a completely new recipe using these flavors.
 
@@ -59,12 +59,27 @@ Note: The description in italics after every story details the predicted size of
 		- **Story 2**: Evaluate user engagement by tracking clicks *(icebox)*
 
 
+## Midpoint Pull Request 
+### Downloading the data and Uploading it to an S3 Bucket 
+2. Retrieve desserts.csv from Kaggle
+    - My primary dessert data comes from a static data file located behind the Kaggle paywall. As a result, the file
+     can only be downloaded manually from https://www.kaggle.com/keytarrockstar/dessert-flavor-combinations. The file, 
+     originally named recipes.csv, was renamed desserts.csv to avoid mixing up the two datasets used for this project. 
+     Next, desserts.csv, was saved in the data/external folder. For other users, the location of the data is configurable in congif.py 
+     as the DESSERTS_PATH variable
+
+3. Download epicurious_recipes.csv using 
+    - I use secondary data from a static, public, data file to supplement my primary data. This file, which contains a recipe
+     of over 30K Epicurious recipes (not just dessert recipes) is large (84 MB)
+   
+    (This file provides additional 
+    contextualizing information, like how many users rated each item ) 
 
 
 
 
 
-# MSiA 423 Project Template
+## Project Template
 <!-- toc -->
 
 - [Directory structure](#directory-structure)
