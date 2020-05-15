@@ -61,6 +61,8 @@ Note: The description in italics after every story details the predicted size of
 
 ## Midpoint Pull Request 
 ### Downloading the data and Uploading it to an S3 Bucket 
+1. Set up your configurations 
+    - config.env
 2. Retrieve desserts.csv from Kaggle
     - My primary dessert data comes from a static data file located behind the Kaggle paywall. As a result, the file
      can only be downloaded manually from https://www.kaggle.com/keytarrockstar/dessert-flavor-combinations. The file, 
@@ -74,10 +76,35 @@ Note: The description in italics after every story details the predicted size of
    
     (This file provides additional 
     contextualizing information, like how many users rated each item ) 
+    
+    
+4. Build the Dessert database schema 
+    - You can create the Dessert database schema in Amazon Web Service's Relational Database Service (AWS-RDS) and/or in a 
+    SQLite database on your local machine. In the config.py file, you can specify which type of database shema(s) you want to 
+    build. By default, the BUILD_SQLITE_LOCAL_DB variable is set to *True* and the BUILD_AWS_RDS variable is set to *False*. 
+    This configuration will build a database schema in local sqlite but not in AWS-RDS. Please change these configurations 
+    based on your needs to build the database schema in one or both platforms. 
+    - Run these Docker commands from the root of the app: 
+        ```bash
+        docker build -t dessert_mysql .
+        docker run --env-file=config.env --mount type=bind,source="$(pwd)"/data,target=/app/data dessert_mysql src/buildDessertDB.py
+        ```
+    - Verify that the database schema was created correctly: 
+    
 
+HOW TO RUN    
+Be in the root directory 
+    - docker build -f Dockerfile -t pipeline .    
+    - NOT THIS docker run --env-file=config.env pipeline src/dataPipeline.py
+    - docker run --env-file=config.env --mount type=bind,source="$(pwd)"/data,target=/app/data pipeline src/dataPipeline.py
 
-
-
+BUILD DDATABASE 
+    - verify sql connection is established: sh run_mysql_client.sh
+    - docker build -t dessert_mysql .
+    -  docker run --env-file=config.env --mount type=bind,source="$(pwd)"/data,target=/app/data dessert_mysql src/buildDessertDB.py
+    - verify it was made: 
+        - use msia423safiadb;
+        - show columns in desserts;
 
 ## Project Template
 <!-- toc -->
