@@ -12,8 +12,8 @@ import argparse
 import config
 import logging.config
 
-logging.config.fileConfig(config.LOGGING_CONFIG)
-logger = logging.getLogger('dataPipeline')
+#logging.config.fileConfig(config.LOGGING_CONFIG)
+#logger = logging.getLogger('dataPipeline')
 
 urlRequest = requests.get(config.RECIPES_URL)
 with open(config.RECIPES_COMPRESSED_PATH, 'wb') as infile:
@@ -33,8 +33,8 @@ out_file.close()
 print("Logger: file was saved to the data folder")
 
 # Below code retained for debugging to assure the data is loaded in the correct format (must uncomment the pandas import)
-recipes = pd.read_json(config.RECIPES_DECOMPRESSED_PATH)
-print(len(recipes))
+#recipes = pd.read_json(config.RECIPES_DECOMPRESSED_PATH)
+#print(len(recipes))
 
 # Upload the data to S3
 s3 = boto3.client('s3', aws_access_key_id=config.AWS_PUBLIC_KEY, aws_secret_access_key=config.AWS_SECRET_KEY)

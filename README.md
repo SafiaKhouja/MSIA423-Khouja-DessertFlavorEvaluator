@@ -75,16 +75,16 @@ Note: The description in italics after every story details the predicted size of
     - My primary dataset of 6500 Epicurious dessert recipes comes from a static data file located behind the Kaggle paywall. As a result, the file
      can only be downloaded manually from https://www.kaggle.com/keytarrockstar/dessert-flavor-combinations. The file, 
      originally named recipes.csv, was renamed *desserts.csv* to avoid mixing it up with the second dataset used for 
-     this project. In case users want to avoid downloading data from Kaggle, his dataset is saved in the 
+     this project. In case users don't have a Kaggle account, this dataset is saved in the 
      data/external/rawData directory of the app.
      
-3. Run the data ingestion script
-    -This script performs a variety of data ingestion functions. First, it downloads the second dataset of 30,000 Epicurious 
-    recipes from its static public location on the internet. Then, it decompresses that large dataset and saves it under the name *epicurious-recipes.json*
+3. Run the data ingestion script    
+    - This script performs a variety of data ingestion functions. First, it downloads the second dataset of 30,000 Epicurious 
+    recipes from its static public URL. Then, it decompresses that large dataset and saves it under the name *epicurious-recipes.json*
     to the data/external/rawData directory, along with the first dataset. Finally, the script establishes an S3 connection 
-    and uploads both datasets to an S3 bucket. This script is located in the src directory, under the name *dataPipeline.py*
-    -Verify that you are in the root of the directory and build the docker image. The image is named "pipeline" 
-    (Note: the same image will be used in step 4)
+    and uploads both datasets to the same S3 bucket. This script is located in the src directory, under the name *dataPipeline.py*
+    - Verify that you are in the root of the directory and build the docker image. The image is named "pipeline" 
+    Note that the same Docker image will be used in step 4.
     ```bash
         docker build -t pipeline .
     ```
@@ -99,6 +99,9 @@ Note: The description in italics after every story details the predicted size of
     build. By default, the BUILD_SQLITE_LOCAL_DB variable is set to *True* and the BUILD_AWS_RDS variable is set to *False*. 
     This configuration will build a database schema in local sqlite but not in AWS-RDS. Please change these configurations 
     based on your needs to build the database schema in one or both platforms. 
+    - Please note that, because of the way that I have implemented logging currently, running this script produces a 
+    barrage of S3 DEBUG and INFO logging messages. If you see this, do not be alarmed as it does not mean that my 
+    script is broken. 
     - For reference, the script for this step is located in the src directory under the name *buildDessertDB.py*
     - Once again, verify that you are in the root directory. We will use the same docker image from step 3 to 
     run the following container. Please refer to step 3 if you need to rebuild that image. 
