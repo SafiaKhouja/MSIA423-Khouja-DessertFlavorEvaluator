@@ -3,7 +3,7 @@ from flask import render_template, request, redirect, url_for
 import logging.config
 # from app.models import Tracks
 from flask import Flask
-from src.add_songs import Tracks
+from notebooks.develop.add_songs import Tracks
 from flask_sqlalchemy import SQLAlchemy
 
 

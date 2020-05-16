@@ -60,51 +60,52 @@ Note: The description in italics after every story details the predicted size of
 
 
 ## Midpoint Pull Request 
-### Downloading the data and Uploading it to an S3 Bucket 
+### How to Run the Code: Data Ingestion and Database Schema Creation
 1. Set up your configurations 
-    - config.env
+    - Open *config.env* located in the root directory and fill in your personal environment variables for S3, AWS, and 
+    MYSQL. Aside from private keys and passwords, I left my own personal configurations in the file to 
+    remind the user what form each configuration should take. To avoid errors when running the code, please do not insert 
+    any spaces between the "=" and the variable value that you enter. The docker containers will source this file as its 
+    environment variable file. 
+    - My app includes one more configuration file, *config.py,* located in the src directory. Users should not need to add personal configurations to 
+    this file. Nonetheless, users can edit this file to change paths or variable names. Additionally, users can use this 
+    file to specify the type of database schema that they wish to create (see step 4).
+    
 2. Retrieve desserts.csv from Kaggle
-    - My primary dessert data comes from a static data file located behind the Kaggle paywall. As a result, the file
+    - My primary dataset of 6500 Epicurious dessert recipes comes from a static data file located behind the Kaggle paywall. As a result, the file
      can only be downloaded manually from https://www.kaggle.com/keytarrockstar/dessert-flavor-combinations. The file, 
-     originally named recipes.csv, was renamed desserts.csv to avoid mixing up the two datasets used for this project. 
-     Next, desserts.csv, was saved in the data/external folder. For other users, the location of the data is configurable in congif.py 
-     as the DESSERTS_PATH variable
-
-3. Download epicurious_recipes.csv using 
-    - I use secondary data from a static, public, data file to supplement my primary data. This file, which contains a recipe
-     of over 30K Epicurious recipes (not just dessert recipes) is large (84 MB)
-   
-    (This file provides additional 
-    contextualizing information, like how many users rated each item ) 
-    
-    
-4. Build the Dessert database schema 
-    - You can create the Dessert database schema in Amazon Web Service's Relational Database Service (AWS-RDS) and/or in a 
-    SQLite database on your local machine. In the config.py file, you can specify which type of database shema(s) you want to 
+     originally named recipes.csv, was renamed *desserts.csv* to avoid mixing it up with the second dataset used for 
+     this project. In case users want to avoid downloading data from Kaggle, his dataset is saved in the 
+     data/external/rawData directory of the app.
+     
+3. Run the data ingestion script
+    -This script performs a variety of data ingestion functions. First, it downloads the second dataset of 30,000 Epicurious 
+    recipes from its static public location on the internet. Then, it decompresses that large dataset and saves it under the name *epicurious-recipes.json*
+    to the data/external/rawData directory, along with the first dataset. Finally, the script establishes an S3 connection 
+    and uploads both datasets to an S3 bucket. This script is located in the src directory, under the name *dataPipeline.py*
+    -Verify that you are in the root of the directory and build the docker image. The image is named "pipeline" 
+    (Note: the same image will be used in step 4)
+    ```bash
+        docker build -t pipeline .
+    ```
+   -Run the docker container for data ingestion 
+   ```bash
+        docker run --env-file=config.env --mount type=bind,source="$(pwd)"/data,target=/app/data pipeline src/dataPipeline.py
+   ```
+  
+4. Build the database schema 
+    - Users can create the Dessert database schema in Amazon Web Service's Relational Database Service (AWS-RDS) and/or in a 
+    SQLite database on your local machine. In the config.py file located in the src directory, you can specify which type of database shema(s) you want to 
     build. By default, the BUILD_SQLITE_LOCAL_DB variable is set to *True* and the BUILD_AWS_RDS variable is set to *False*. 
     This configuration will build a database schema in local sqlite but not in AWS-RDS. Please change these configurations 
     based on your needs to build the database schema in one or both platforms. 
-    - Run these Docker commands from the root of the app: 
+    - For reference, the script for this step is located in the src directory under the name *buildDessertDB.py*
+    - Once again, verify that you are in the root directory. We will use the same docker image from step 3 to 
+    run the following container. Please refer to step 3 if you need to rebuild that image. 
+    - Build the docker container to create the database schema
         ```bash
-        docker build -t dessert_mysql .
-        docker run --env-file=config.env --mount type=bind,source="$(pwd)"/data,target=/app/data dessert_mysql src/buildDessertDB.py
-        ```
-    - Verify that the database schema was created correctly: 
-    
-
-HOW TO RUN    
-Be in the root directory 
-    - docker build -f Dockerfile -t pipeline .    
-    - NOT THIS docker run --env-file=config.env pipeline src/dataPipeline.py
-    - docker run --env-file=config.env --mount type=bind,source="$(pwd)"/data,target=/app/data pipeline src/dataPipeline.py
-
-BUILD DDATABASE 
-    - verify sql connection is established: sh run_mysql_client.sh
-    - docker build -t dessert_mysql .
-    -  docker run --env-file=config.env --mount type=bind,source="$(pwd)"/data,target=/app/data dessert_mysql src/buildDessertDB.py
-    - verify it was made: 
-        - use msia423safiadb;
-        - show columns in desserts;
+        docker run --env-file=config.env --mount type=bind,source="$(pwd)"/data,target=/app/data pipeline src/buildDessertDB.py
+        ```    
 
 ## Project Template
 <!-- toc -->

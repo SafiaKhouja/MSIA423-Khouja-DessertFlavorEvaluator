@@ -1,6 +1,6 @@
 import argparse
 
-from src.add_songs import create_db, add_track
+from notebooks.develop.add_songs import create_db, add_track
 
 if __name__ == '__main__':
 
