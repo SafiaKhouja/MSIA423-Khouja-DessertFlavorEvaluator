@@ -24,18 +24,21 @@ AWS_PUBLIC_KEY=os.environ['AWS_PUBLIC_KEY']
 AWS_SECRET_KEY=os.environ['AWS_SECRET_KEY']
 
 # AWS RDS MYSQL configurations
-BUILD_AWS_RDS=False
+BUILD_AWS_RDS=True
 CONNECTION_TYPE="mysql+pymysql"
 MYSQL_USER=os.environ['MYSQL_USER']
 MYSQL_PASSWORD=os.environ['MYSQL_PASSWORD']
 MYSQL_HOST=os.environ['MYSQL_HOST']
 MYSQL_PORT=os.environ['MYSQL_PORT']
 MYSQL_DATABASE_NAME=os.environ['MYSQL_DATABASE_NAME']
+AWS_RDS_ENGINE_STRING = "{}://{}:{}@{}:{}/{}".format(CONNECTION_TYPE, MYSQL_USER, MYSQL_PASSWORD, MYSQL_HOST,
+                                             MYSQL_PORT, MYSQL_DATABASE_NAME)
 
 # Local SQLite configurations
 BUILD_SQLITE_LOCAL_DB=True
 LOCAL_DB_NAME="desserts.db"
-LOCAL_DB_PATH=PROJECT_HOME+"/data/sample/"+LOCAL_DB_NAME
+LOCAL_DB_PATH=PROJECT_HOME+"/data/database/"+LOCAL_DB_NAME
+SQLITE_ENGINE_STRING = 'sqlite:///{}'.format(LOCAL_DB_PATH)
 
 
 

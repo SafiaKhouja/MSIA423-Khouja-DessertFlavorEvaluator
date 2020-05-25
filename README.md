@@ -98,7 +98,9 @@ Note: The description in italics after every story details the predicted size of
     SQLite database on your local machine. In the config.py file located in the src directory, you can specify which type of database shema(s) you want to 
     build. By default, the BUILD_SQLITE_LOCAL_DB variable is set to *True* and the BUILD_AWS_RDS variable is set to *False*. 
     This configuration will build a database schema in local sqlite but not in AWS-RDS. Please change these configurations 
-    based on your needs to build the database schema in one or both platforms. 
+    based on your needs to build the database schema in one or both platforms. If you change these configurations after 
+    building the docker image from step 3, you must rebuild the docker image in order to have those new configurations 
+    included in the docker container. 
     - Please note that, because of the way that I have implemented logging currently, running this script produces a 
     barrage of S3 DEBUG and INFO logging messages. If you see this, do not be alarmed as it does not mean that my 
     script is broken. 
@@ -109,6 +111,7 @@ Note: The description in italics after every story details the predicted size of
         ```bash
         docker run --env-file=config.env --mount type=bind,source="$(pwd)"/data,target=/app/data pipeline src/buildDessertDB.py
         ```    
+
 
 ## Project Template
 <!-- toc -->
