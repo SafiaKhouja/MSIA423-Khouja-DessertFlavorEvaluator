@@ -7,7 +7,7 @@ source config_shell.cfg
 # Use curl to rawData the data from the URL and save it to the path for the compressed file
 curl -L -o ${RECIPES_COMPRESSED_FILEPATH} ${RECIPES_URL}
 
-# Run dataPipeline.py script to decompress the data
+# Run dataIngestion.py script to decompress the data
 # 2 Argparse arguments expected: (1) compressed filepath (2) decompressed filepath
 python3 decompress_data.py ${RECIPES_COMPRESSED_FILEPATH} ${RECIPES_DECOMPRESSED_FILEPATH}
 

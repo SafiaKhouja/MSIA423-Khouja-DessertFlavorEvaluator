@@ -82,7 +82,7 @@ Note: The description in italics after every story details the predicted size of
     - This script performs a variety of data ingestion functions. First, it downloads the second dataset of 30,000 Epicurious 
     recipes from its static public URL. Then, it decompresses that large dataset and saves it under the name *epicurious-recipes.json*
     to the data/external/rawData directory, along with the first dataset. Finally, the script establishes an S3 connection 
-    and uploads both datasets to the same S3 bucket. This script is located in the src directory, under the name *dataPipeline.py*
+    and uploads both datasets to the same S3 bucket. This script is located in the src directory, under the name *dataIngestion.py*
     - Verify that you are in the root of the directory and build the docker image. The image is named "pipeline" 
     Note that the same Docker image will be used in step 4.
     ```bash
@@ -90,7 +90,7 @@ Note: The description in italics after every story details the predicted size of
     ```
    -Run the docker container for data ingestion 
    ```bash
-        docker run --env-file=config.env --mount type=bind,source="$(pwd)"/data,target=/app/data pipeline src/dataPipeline.py
+        docker run --env-file=config.env --mount type=bind,source="$(pwd)"/data,target=/app/data pipeline src/dataIngestion.py
    ```
   
 4. Build the database schema 

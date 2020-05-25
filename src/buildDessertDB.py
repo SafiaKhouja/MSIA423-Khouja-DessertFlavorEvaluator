@@ -57,7 +57,7 @@ if __name__ == "__main__":
 		connectionMakeTable(engine_string)
 		logger.info("AWS-RDS connection made")
 
-	To build a schema in SQLite
+	#To build a schema in SQLite
 	if config.BUILD_SQLITE_LOCAL_DB == True:
 		path = config.LOCAL_DB_PATH
 		engine_string = 'sqlite:////{}'.format(path)
