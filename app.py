@@ -46,7 +46,7 @@ def index():
         return render_template('error.html')
 
 
-@app.route('/add', methods=['POST'])
+@app.route('/prediction', methods=['POST'])
 def add_entry():
     """View that process a POST with new song input
 
@@ -60,7 +60,7 @@ def add_entry():
     prediction = predict.make_prediction(entry)
     print(prediction)
     #logger.info("New song added: %s by %s", request.form['Flavor 1'], request.form['Flavor 1'])
-    return redirect(url_for('index'))
+    return render_template("prediction.html", prediction = prediction)
     #except:
     #    logger.warning("Not able to display tracks, error page returned")
     #    return render_template('error.html')

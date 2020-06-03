@@ -17,7 +17,7 @@ def processRawInput(entry, uniqueFlavors):
     """
     logger.info("Cleaning user input...")
     # make the user input into a list of strings
-    flavorCombo = [entry.flavor1, entry.flavor2, entry.flavor3]
+    flavorCombo = [entry.flavor1.strip(), entry.flavor2.strip(), entry.flavor3.strip()]
     #Allow users to input a none value, so append that to the list of unique flavors
     uniqueFlavors.append('none')
     # Verify that at least 2 of the flavors entered were valid entries and append valid entries to the finalFlavorList
