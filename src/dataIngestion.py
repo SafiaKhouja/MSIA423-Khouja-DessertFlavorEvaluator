@@ -7,12 +7,11 @@ import botocore
 import lzma
 import json
 # Import configurations
-import config # comment this and uncomment the next line if importing the script to run.py
-#from src import config
+from src import config
 import logging.config
 
 logging.config.fileConfig(config.LOGGING_CONFIG)
-logger = logging.getLogger('dataPipeline')
+logger = logging.getLogger('dataIngestion')
 
 def downloadData():
     """ Downloads Epicurious Recipe data (30,000K recipes) in the .xz file format from the website hosting the data
@@ -33,7 +32,7 @@ def decompressData():
     xzData = lzma.open(config.RECIPES_COMPRESSED_PATH).readlines()
     xzData = [z.decode('utf-8') for z in xzData]
     xzData = [json.loads(z) for z in xzData]
-    logger.debug("File {} decompressed to {}".format(config.RECIPES_COMPRESSED_FILENAME,
+    logger.info("File {} decompressed to {}".format(config.RECIPES_COMPRESSED_FILENAME,
                                                     config.RECIPES_DECOMPRESSED_FILENAME))
     return xzData
 
@@ -44,7 +43,7 @@ def writeData(xzData):
     out_file = open(config.RECIPES_DECOMPRESSED_PATH, "w")
     json.dump(xzData, out_file)
     out_file.close()
-    logger.debug("Decompressed file {} written to {}".format(config.RECIPES_DECOMPRESSED_FILENAME,
+    logger.info("Decompressed file {} written to {}".format(config.RECIPES_DECOMPRESSED_FILENAME,
                                                             config.RECIPES_DECOMPRESSED_PATH))
 
 def processEpicuriousRecipes():
@@ -63,7 +62,7 @@ def uploadDataS3():
     # Establish S3 client connection
     try:
         s3 = boto3.client('s3', aws_access_key_id=config.AWS_PUBLIC_KEY, aws_secret_access_key=config.AWS_SECRET_KEY)
-    except AttributeError:
+    except Exception:
         logger.error("Could not establish S3 Client Connection. Please verify AWS credentials")
         raise
     #Upload the datasets
@@ -74,12 +73,14 @@ def uploadDataS3():
         s3.upload_file(config.RECIPES_DECOMPRESSED_PATH, config.S3_BUCKET_NAME, config.RECIPES_DECOMPRESSED_FILENAME)
         logger.info("Files {} and {} successfully uploaded to S3".format(config.DESSERTS_PATH,
                                                                          config.RECIPES_DECOMPRESSED_PATH))
-    except AttributeError:
+    except Exception:
         logger.error("Could not upload files to S3. Please verify filepaths and S3 bucket names")
         raise
 
-if __name__ == "__main__": # comment this and uncomment the next line if importing this to run.py
-#def run():
-    """ Performs data ingestion by processing Epicurious Recipes dataset and then uploading both datasets to S3 """
+#if __name__ == "__main__": # comment this and uncomment the next line if importing this to run.py
+def run():
+    """ Runs all the functions to perform data ingestion
+        Processes Epicurious Recipes dataset and then uploading both datasets to S3
+    """
     processEpicuriousRecipes()
     uploadDataS3()

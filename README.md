@@ -92,6 +92,9 @@ Note: The description in italics after every story details the predicted size of
    ```bash
         docker run --env-file=config.env --mount type=bind,source="$(pwd)"/data,target=/app/data pipeline src/dataIngestion.py
    ```
+   
+           docker run --env-file=configSafia.env --mount type=bind,source="$(pwd)"/data,target=/app/data pipeline run.py create_db
+
   
 4. Build the database schema 
     - Users can create the Dessert database schema in Amazon Web Service's Relational Database Service (AWS-RDS) and/or in a 
@@ -111,6 +114,19 @@ Note: The description in italics after every story details the predicted size of
         ```bash
         docker run --env-file=config.env --mount type=bind,source="$(pwd)"/data,target=/app/data pipeline src/buildDessertDB.py
         ```    
+
+## Final Deliverable 
+1. Build the pipeline 
+    ```bash
+    docker build -t pipeline .
+    docker run --env-file=configSafia.env --mount type=bind,source="$(pwd)"/data,target=/app/data pipeline driver.py
+    ```
+   
+   
+2. Establish the database
+    ```bash 
+     docker run --env-file=configSafia.env --mount type=bind,source="$(pwd)"/data,target=/app/data pipeline run.py create_db
+    ```
 
 
 ## Project Template

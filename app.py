@@ -1,10 +1,11 @@
 import traceback
 from flask import render_template, request, redirect, url_for
 import logging.config
-# from app.models import Tracks
 from flask import Flask
-from notebooks.develop.add_songs import Tracks
+from src.buildInputDB import input
 from flask_sqlalchemy import SQLAlchemy
+from src import predict
+
 
 
 # Initialize the Flask application
@@ -23,6 +24,7 @@ logger.debug('Test log')
 db = SQLAlchemy(app)
 
 
+
 @app.route('/')
 def index():
     """Main view that lists songs in the database.
@@ -33,14 +35,14 @@ def index():
     Returns: rendered html template
 
     """
-
     try:
-        tracks = db.session.query(Tracks).limit(app.config["MAX_ROWS_SHOW"]).all()
-        logger.debug("Index page accessed")
-        return render_template('index.html', tracks=tracks)
+        #inputTable = db.session.query(input).limit(app.config["MAX_ROWS_SHOW"]).all()
+        #logger.debug("Index page accessed")
+        #return render_template('index.html', tracks=inputTable)
+        return render_template('index.html')
     except:
         traceback.print_exc()
-        logger.warning("Not able to display tracks, error page returned")
+        logger.warning("Not able to display input table")
         return render_template('error.html')
 
 
@@ -50,17 +52,20 @@ def add_entry():
 
     :return: redirect to index page
     """
-
-    try:
-        track1 = Tracks(artist=request.form['artist'], album=request.form['album'], title=request.form['title'])
-        db.session.add(track1)
-        db.session.commit()
-        logger.info("New song added: %s by %s", request.form['title'], request.form['artist'])
-        return redirect(url_for('index'))
-    except:
-        logger.warning("Not able to display tracks, error page returned")
-        return render_template('error.html')
+    #try:
+    userInput = input(flavor1=request.form['flavor1'], flavor2=request.form['flavor2'], flavor3=request.form['flavor3'])
+    db.session.add(userInput)
+    db.session.commit()
+    entry = db.session.query(input).order_by(input.id.desc()).first()
+    prediction = predict.make_prediction(entry)
+    print(prediction)
+    #logger.info("New song added: %s by %s", request.form['Flavor 1'], request.form['Flavor 1'])
+    return redirect(url_for('index'))
+    #except:
+    #    logger.warning("Not able to display tracks, error page returned")
+    #    return render_template('error.html')
 
 
 if __name__ == '__main__':
+    print(db)
     app.run(debug=app.config["DEBUG"], port=app.config["PORT"], host=app.config["HOST"])

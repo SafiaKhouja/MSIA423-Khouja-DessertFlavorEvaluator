@@ -3,7 +3,7 @@ import config
 import boto3
 
 #docker commmand
-#docker run --env - file = config.env pipeline src/uploadS3.py
+#docker run --env - file = userConfig.py pipeline src/uploadS3.py
 
 # S3 Downloaded Data File Configurations
 #RECIPES_FILENAME="epicurious-recipes.json"

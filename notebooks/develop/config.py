@@ -17,11 +17,28 @@ RECIPES_DECOMPRESSED_FILENAME="epicurious-recipes.json"
 RECIPES_DECOMPRESSED_PATH=PROJECT_HOME+"/data/external/rawData/"+RECIPES_DECOMPRESSED_FILENAME
 
 # S3 configurations
-S3_BUCKET_NAME=os.environ.get('S3_BUCKET_NAME')
+S3_BUCKET_NAME=os.environ['S3_BUCKET_NAME']
 
 # AWS configurations
-AWS_PUBLIC_KEY=os.environ.get('AWS_PUBLIC_KEY')
-AWS_SECRET_KEY=os.environ.get('AWS_SECRET_KEY')
+AWS_PUBLIC_KEY=os.environ['AWS_PUBLIC_KEY']
+AWS_SECRET_KEY=os.environ['AWS_SECRET_KEY']
+
+# AWS RDS MYSQL configurations
+BUILD_AWS_RDS=True
+CONNECTION_TYPE="mysql+pymysql"
+MYSQL_USER=os.environ['MYSQL_USER']
+MYSQL_PASSWORD=os.environ['MYSQL_PASSWORD']
+MYSQL_HOST=os.environ['MYSQL_HOST']
+MYSQL_PORT=os.environ['MYSQL_PORT']
+MYSQL_DATABASE_NAME=os.environ['MYSQL_DATABASE_NAME']
+AWS_RDS_ENGINE_STRING = "{}://{}:{}@{}:{}/{}".format(CONNECTION_TYPE, MYSQL_USER, MYSQL_PASSWORD, MYSQL_HOST,
+                                             MYSQL_PORT, MYSQL_DATABASE_NAME)
+
+# Local SQLite configurations
+BUILD_SQLITE_LOCAL_DB=True
+LOCAL_DB_NAME="desserts.db"
+LOCAL_DB_PATH=PROJECT_HOME+"/data/database/"+LOCAL_DB_NAME
+SQLITE_ENGINE_STRING = 'sqlite:///{}'.format(LOCAL_DB_PATH)
 
 ########## DATA INCORPORATION CONFIGS ##########
 # File configurations for S3 download of Dessert Dataset into the data/external/rawData directory
@@ -40,50 +57,13 @@ MERGED_PATH=PROJECT_HOME+"/data/pipeline/"+MERGED_FILENAME
 ########## DATA CLEAN CONFIGS ##########
 # Columns to include moving forward (columns needed in the model or recommender system)
 SELECTED_COLUMNS=['recipe_name', 'aggregateRating', 'flavors', 'willMakeAgainPct', 'reviewsCount', "url"]
-
 # File configurations for cleaned data
 CLEAN_FILENAME="clean.csv"
 CLEAN_PATH=PROJECT_HOME+"/data/pipeline/"+CLEAN_FILENAME
-
-# File configurations for unique flavors list
-FLAVOR_FILENAME="flavors.txt"
-FLAVOR_PATH=PROJECT_HOME+"/data/model/"+FLAVOR_FILENAME
-
-# File configuration for the final data (cleaned data after it has been one-hot-encoded and is model ready)
-FINAL_FILENAME="final.csv"
-FINAL_PATH=PROJECT_HOME+"/data/pipeline/"+FINAL_FILENAME
 
 ########## MODEL CONFIGS ##########
 # Configurations for running the model
 SEED=7177135
 TEST_SIZE=0.25
-
 # Columns to leave out of the model
 LEAVE_OUT_COLUMNS=["recipe_name", "aggregateRating", "url", 'willMakeAgainPct']
-
-# Pickle model object
-MODEL_FILENAME="modelObject.sav"
-MODEL_PATH=PROJECT_HOME+"/data/model/"+MODEL_FILENAME
-
-# Column name text file
-COLUMN_FILENAME="column.txt"
-COLUMN_PATH=PROJECT_HOME+"/data/model/"+COLUMN_FILENAME
-
-########## USER INPUT DATABASE CONFIGS ##########
-# AWS RDS MYSQL configurations
-CONNECTION_TYPE="mysql+pymysql"
-MYSQL_USER=os.environ.get('MYSQL_USER')
-MYSQL_PASSWORD=os.environ.get('MYSQL_PASSWORD')
-MYSQL_HOST=os.environ.get('MYSQL_HOST')
-MYSQL_PORT=os.environ.get('MYSQL_PORT')
-MYSQL_DATABASE_NAME=os.environ.get('MYSQL_DATABASE_NAME')
-AWS_RDS_ENGINE_STRING = "{}://{}:{}@{}:{}/{}".format(CONNECTION_TYPE, MYSQL_USER, MYSQL_PASSWORD, MYSQL_HOST, MYSQL_PORT, MYSQL_DATABASE_NAME)
-
-# Local SQLite configurations
-LOCAL_DB_NAME="input.db"
-LOCAL_DB_PATH=PROJECT_HOME+"/data/database/"+LOCAL_DB_NAME
-SQLITE_ENGINE_STRING = 'sqlite:///{}'.format(LOCAL_DB_PATH)
-
-# Which database to build (if false, build a local SQLite database):
-BUILD_AWS_RDS=False
-

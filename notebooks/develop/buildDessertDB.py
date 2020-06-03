@@ -14,10 +14,10 @@ logger = logging.getLogger('buildDessertDB')
 
 Base = declarative_base()
 
-class desserts(Base):
+class input(Base):
 	""" Defines the data model for the table `desserts`. """
-	__tablename__ = 'desserts'
-	dessert_name = Column(String(200), primary_key=True, unique = True, nullable=False)
+	__tablename__ = 'input'
+	flavor1 = Column(String(200), primary_key=True, unique = True, nullable=False)
 	id = Column(String(200), unique=True, nullable=False)
 	flavors = Column(String(200), unique=False, nullable=False)
 	rating = Column(Float, unique=False, nullable=False)
@@ -43,34 +43,23 @@ def connectionMakeTable(engine_string):
 
 # The If statement ensures the following only runs when the script is executed (rather than imported)
 if __name__ == "__main__":
+#def run():
 
 	# To build a schema in AWS RDS
 	if config.BUILD_AWS_RDS == True:
-		conn_type = config.CONNECTION_TYPE
-		user = config.MYSQL_USER
-		password = config.MYSQL_PASSWORD
-		host = config.MYSQL_HOST
-		port = config.MYSQL_PORT
-		database = config.MYSQL_DATABASE_NAME
-		engine_string = "{}://{}:{}@{}:{}/{}".format(conn_type, user, password, host, port, database)
+		engine_string = config.AWS_RDS_ENGINE_STRING
 		logger.debug("AWS-RDS engine string entered: {}".format(engine_string))
 		connectionMakeTable(engine_string)
 		logger.info("AWS-RDS connection made")
 
-<<<<<<< HEAD
+
 	#To build a schema in SQLite
-=======
-	# To build a schema in SQLite
->>>>>>> 26270312b3692c03e38436cb1a59891b131b1820
 	if config.BUILD_SQLITE_LOCAL_DB == True:
-		path = config.LOCAL_DB_PATH
-		engine_string = 'sqlite:////{}'.format(path)
+		engine_string = config.SQLITE_ENGINE_STRING
 		logger.debug("SQLite engine string entered: {}".format(engine_string))
 		connectionMakeTable(engine_string)
 		logger.info("Local SQLite connection made")
 
-# Note to self: it could be a good idea to pass in the BUILD_AWS_RDS and BUILD_SQLITE_LOCAL_DB booleans through argparse
-# 				instead of through the config.py file
 
 
 
