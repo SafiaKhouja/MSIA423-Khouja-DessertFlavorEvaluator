@@ -57,10 +57,13 @@ def add_entry():
     db.session.add(userInput)
     db.session.commit()
     entry = db.session.query(input).order_by(input.id.desc()).first()
-    prediction = predict.make_prediction(entry)
-    print(prediction)
+    prediction, flavorCombo, topRec, secondTopRec = predict.make_prediction(entry)
     #logger.info("New song added: %s by %s", request.form['Flavor 1'], request.form['Flavor 1'])
-    return render_template("prediction.html", prediction = prediction)
+    return render_template("prediction.html", prediction = prediction, flavorCombo = flavorCombo,
+                           noRecommendation = topRec[5],
+                           topRecDessert = topRec[0], topRecURL = topRec[1], topRecRating= topRec[2], topRecReviewsCount= topRec[3],
+                           secondTopRecDessert = secondTopRec[0], secondTopRecURL = secondTopRec[1],
+                                secondTopRecRating=secondTopRec[2], secondTopRecReviewsCount = secondTopRec[3])
     #except:
     #    logger.warning("Not able to display tracks, error page returned")
     #    return render_template('error.html')

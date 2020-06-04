@@ -2,18 +2,81 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link href="static/basic.css" rel="stylesheet">
+    <style>
+    td, th {padding: 8px; text-align: left;}
+    </style>
 </head>
 
-<body>
+<body style="background-color:#f9efec;">
+    <h1 style="font-size:45px;font-family:Arial Narrow ;font-weight: bold">🧁
+            <span style="color:#ff66b3">~</span>
+            <span style="color:#ff668c">D</span>
+            <span style="color:#ff6666">E</span>
+            <span style="color:#ff6666">S</span>
+            <span style="color:#ff8c66">S</span>
+            <span style="color:#ff9933">E</span>
+            <span style="color:#ffb366">R</span>
+            <span style="color:#ffd966">T</span>
+            <span style="color:#f9efec">.</span>
+            <span style="color:#ffde00">F</span>
+            <span style="color:#8cff66">L</span>
+            <span style="color:#66ff66">A</span>
+            <span style="color:#66ff8c">V</span>
+            <span style="color:#66ffd9">O</span>
+            <span style="color:#66ffff">R</span>
+            <span style="color:#f9efec">.</span>
+            <span style="color:#66d9ff">E</span>
+            <span style="color:#66d9ff">V</span>
+            <span style="color:#66b3ff">A</span>
+            <span style="color:#668cff">L</span>
+            <span style="color:#6666ff">U</span>
+            <span style="color:#8c66ff">A</span>
+            <span style="color:#b366ff">T</span>
+            <span style="color:#d966ff">O</span>
+            <span style="color:#ff66ff">R</span>
+            <span style="color:#ff66d9">~</span> 🧁
+        </h1>
+ &nbsp;
+    <h3 style="font-family:Arial;color:#d46868;font-weight: bold"> Results for flavor combination: {{flavorCombo}} </h3>
+    &nbsp;
 
-    <h3>
-         <a href = "{{ url_for('index') }}">Penny Lane Music Recommender</a>
-    </h3>
-    <h3>
-         {{ prediction }}
-    </h3>
+    <p style="font-family:Arial;color:#d46868;margin-left:20px"> The predicted rating of this flavor combination is: </p>
+    <p style="font-family:Arial;color:#ff0066;margin-left:40px;font-weight: bold"> {{ prediction }}</p>
+ &nbsp;
+    <p style="font-family:Arial;color:#d46868;margin-left:20px"> Popular and highly rated recipes that incorporate this flavor combination: </p>
+
+    <p style="font-family:Arial;color:#ff0066;margin-left:40px;font-weight: bold"> {{ noRecommendation }}</p>
+
+    <table style="font-family:Arial;color:#ff0066;margin-left:40px">
+  <tr>
+    <th>Dessert</th>
+    <th>URL</th>
+    <th>Average Rating</th>
+      <th>Number of Reviews</th>
+  </tr>
+  <tr>
+    <td>{{topRecDessert}}</td>
+    <td> <a href = "{{topRecURL}}">{{topRecURL}}</a></td>
+    <td>{{topRecRating}}</td>
+      <td>{{topRecReviewsCount}}</td>
+  </tr>
+  <tr>
+    <td>{{secondTopRecDessert}}</td>
+    <td> <a href = "{{secondTopRecURL}}">{{secondTopRecURL}}</a></td>
+    <td>{{secondTopRecRating}}</td>
+      <td>{{secondTopRecReviewsCount}}</td>
+  </tr>
+</table>
+
+    &nbsp;
+&nbsp;
+    <h4 style="font-family:Arial;color:#d46868">
+         <a href = "{{ url_for('index') }}">Return to the home page to try a different flavor combination!</a>
+    </h4>
 
 
+
+
+    <p style="position: absolute; bottom: 5px;font-family:Arial;color:#d46868; font-weight: bold"> ©️ Safia Khouja, safia@u.northwestern.edu, June 2020</p>
 </body>
 </html>

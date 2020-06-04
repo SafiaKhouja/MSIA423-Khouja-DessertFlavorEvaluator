@@ -16,10 +16,8 @@ def processRawInput(entry, uniqueFlavors):
     Returns: finalFlavorCombo (list): list of flavors that were valid OR a list with the string "INVALID" to flag it
     """
     logger.info("Cleaning user input...")
-    # make the user input into a list of strings
-    flavorCombo = [entry.flavor1.strip(), entry.flavor2.strip(), entry.flavor3.strip()]
-    #Allow users to input a none value, so append that to the list of unique flavors
-    uniqueFlavors.append('none')
+    # make the user input into a list of strings. Strip of whitespace and make lowercase
+    flavorCombo = [entry.flavor1.strip().lower(), entry.flavor2.strip().lower(), entry.flavor3.strip().lower()]
     # Verify that at least 2 of the flavors entered were valid entries and append valid entries to the finalFlavorList
     finalFlavorCombo = []
     for flavor in flavorCombo:
@@ -37,8 +35,6 @@ def imputeReviewCount(finalFlavorCombo, clean):
         if set(finalFlavorCombo) <= set(clean["flavors"][r]):
             totalReviews += clean["reviewsCount"][r]
             numRecipeMatches += 1
-    imputedReviewCount = totalReviews / numRecipeMatches
-
     # prevent division by 0
     if numRecipeMatches == 0:
         imputedReviewCount = 0
@@ -67,6 +63,49 @@ def predict(finalFlavorCombo, imputedReviewCount):
     prediction = model.predict(userInput[0:1])
     return prediction
 
+def topRecommendation(finalFlavorCombo, clean):
+    bestRating = 0
+    bestRatingIndex = 0
+    for r in range(len(clean)):
+        if set(finalFlavorCombo) <= set(clean["flavors"][r]):
+            # we only want recipes with more than 10 reviews
+            if clean["reviewsCount"][r] > 5 and clean["aggregateRating"][r] > 2.5:
+                if clean["aggregateRating"][r] > bestRating:
+                    bestRating = clean["aggregateRating"][r]
+                    bestRatingIndex = r
+    if bestRatingIndex == 0 and bestRating == 0:
+        bestRecipe, bestURL, bestRating, reviewsCount = ("n/a","","","")
+        noRecommendation = "Sorry, I couldn't find any popular and highly rated recipes with this flavor combination 😞"
+    else:
+        bestRecipe = clean["recipe_name"][bestRatingIndex]
+        bestURL = "https://www.epicurious.com/" + clean["url"][bestRatingIndex]
+        bestRating = clean["aggregateRating"][bestRatingIndex]
+        reviewsCount = clean["reviewsCount"][bestRatingIndex]
+        noRecommendation = ""
+    return bestRecipe, bestURL, bestRating, reviewsCount, bestRatingIndex, noRecommendation
+
+def nextTopRecommendation(finalFlavorCombo, clean, bestRatingIndex):
+    secondBestRating = 0
+    secondBestRatingIndex = 0
+    for r in range(len(clean)):
+        if set(finalFlavorCombo)<=set(clean["flavors"][r]):
+            # we only want recipes with more than 10 reviews
+            if clean["reviewsCount"][r] > 5 and clean["aggregateRating"][r] > 2.5:
+                if clean["aggregateRating"][r] > secondBestRating and r != bestRatingIndex:
+                    secondBestRating = clean["aggregateRating"][r]
+                    secondBestRatingIndex = r
+    print(secondBestRatingIndex)
+    print(secondBestRating)
+    if secondBestRatingIndex == 0 and secondBestRating == 0:
+        secondBestRecipe, secondBestURL,secondBestRating, secondBestReviewsCount = ("","","","")
+    else:
+        secondBestRecipe = clean["recipe_name"][secondBestRatingIndex]
+        secondBestURL = "https://www.epicurious.com/" + clean["url"][secondBestRatingIndex]
+        secondBestRating = clean["aggregateRating"][secondBestRatingIndex]
+        secondBestReviewsCount = clean["reviewsCount"][secondBestRatingIndex]
+    return secondBestRecipe, secondBestURL, secondBestRating, secondBestReviewsCount
+
+
 def make_prediction(entry):
     # Load the unique flavors
     with open(config.FLAVOR_PATH, 'r') as filehandle:
@@ -78,10 +117,18 @@ def make_prediction(entry):
         lambda x: x.replace("[", "").replace("]", "").replace("'", "").split(' '))
 
     finalFlavorCombo = processRawInput(entry, uniqueFlavors)
+    topRec = []
     if "INVALID" not in finalFlavorCombo:
         imputedReviewCount = imputeReviewCount(finalFlavorCombo, clean)
         prediction = predict(finalFlavorCombo, imputedReviewCount)
+        outputFlavorList  = ' + '.join([str(elem) for elem in finalFlavorCombo])
+        topRec = topRecommendation(finalFlavorCombo, clean)
+        secondTopRec = nextTopRecommendation(finalFlavorCombo, clean, topRec[4])
+
+
     else:
-        print("ERROR - Need to add exception handling later")
-        prediction = "ERROR"
-    return prediction
+        prediction = ["I could not recognize enough flavors to make a prediction 😞 Please verify that you entered the flavors correctly"]
+        outputFlavorList = [entry.flavor1.strip().lower(), entry.flavor2.strip().lower(), entry.flavor3.strip().lower()]
+        topRec = ["", "", "", ""]
+        secondTopRec = ["", "", "", ""]
+    return [prediction[0], outputFlavorList, topRec, secondTopRec]

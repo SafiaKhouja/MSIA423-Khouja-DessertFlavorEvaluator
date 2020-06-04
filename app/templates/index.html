@@ -2,34 +2,90 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link href="static/basic.css" rel="stylesheet">
 </head>
 
-<body>
-    <h3>
-         <a href = "{{ url_for('index') }}">Penny Lane Music Recommender</a>
-    </h3>
+<body style="background-color:#f9efec;">
+    <h1 style="font-size:45px;font-family:Arial Narrow ;font-weight: bold"> 🧁
+        <span style="color:#ff66b3">~</span>
+        <span style="color:#ff668c">D</span>
+        <span style="color:#ff6666">E</span>
+        <span style="color:#ff6666">S</span>
+        <span style="color:#ff8c66">S</span>
+        <span style="color:#ff9933">E</span>
+        <span style="color:#ffb366">R</span>
+        <span style="color:#ffd966">T</span>
+        <span style="color:#f9efec">.</span>
+        <span style="color:#ffde00">F</span>
+        <span style="color:#8cff66">L</span>
+        <span style="color:#66ff66">A</span>
+        <span style="color:#66ff8c">V</span>
+        <span style="color:#66ffd9">O</span>
+        <span style="color:#66ffff">R</span>
+        <span style="color:#f9efec">.</span>
+        <span style="color:#66d9ff">E</span>
+        <span style="color:#66d9ff">V</span>
+        <span style="color:#66b3ff">A</span>
+        <span style="color:#668cff">L</span>
+        <span style="color:#6666ff">U</span>
+        <span style="color:#8c66ff">A</span>
+        <span style="color:#b366ff">T</span>
+        <span style="color:#d966ff">O</span>
+        <span style="color:#ff66ff">R</span>
+        <span style="color:#ff66d9">~</span> 🧁
+    </h1>
 
-    <hr/>
-    <table>
-         <thead>
-            <tr>
-               <th>Title</th>
-               <th>Artist</th>
-               <th>Album</th>
-            </tr>
-         </thead>
+    <h2 style="font-family:Arial;color:#d46868"> Welcome! I'll help you decide what to bake next! 🥰 </h2>
 
 
+    <h3 style="font-family:Arial;color:#d46868"> Enter your flavor combination below! ✨ </h3>
+    <p style="font-family:Arial;color:#d46868;"> I'll predict the rating of your flavor combination and give you recipe recommendations.</p>
       </table>
       <form action="{{ url_for('add_entry') }}" method=post class=add-entry>
       <dl>
         <input type=text size=15 name=flavor1 placeholder="flavor1">
         <input type=text size=15 name=flavor2 placeholder="flavor2">
         <input type=text size=15 name=flavor3 placeholder="flavor3">
-        <input type=submit value=Add>
+        <input type=submit value=Enter>
       </dl>
     </form>
+
+    <h3 style="font-family:Arial;color:#d46868"> Make your own flavor combination by choosing two or three of the 94 flavor options below: </h3>
+
+    <p style="font-family:Arial;color:#ff0066;font-weight: bold;margin-left:20px"> CLASSIC 🌹</p>
+    <p style="font-family:Arial;color:#d46868;margin-left:40px"> Chocolate, Coffee, Earl_grey, Espresso,
+        Matcha, Oatmeal, Rose, Vanilla </p>
+
+    <p style="font-family:Arial;color:#ff0066;font-weight: bold;margin-left:20px">  SUGARY 🍯</p>
+    <p style="font-family:Arial;color:#d46868;margin-left:40px"> Caramel, Cocoa, Cola, Gingerbread, Graham_cracker, Honey,
+        Maple, Marshmallow, Mascarpone, Ricotta </p>
+
+    <p style="font-family:Arial;color:#ff0066;font-weight: bold;margin-left:20px">  FRUITY 🍑</p>
+    <p style="font-family:Arial;color:#d46868;margin-left:40px">
+        Apple, Apricot, Banana, Blackberry, Blueberry, Carrot, Cherry, Coconut, Cranberry, Date, Fig, Grape, Hibiscus,
+        Lemon, Lime, Mango, Orange, Passionfruit, Peach, Pear, Pineapple, Plum, Pomegranate, Pumpkin, Raisin, Raspberry,
+        Strawberry</p>
+
+    <p style="font-family:Arial;color:#ff0066;font-weight: bold;margin-left:20px">  SPICY 🌶️ </p>
+    <p style="font-family:Arial;color:#d46868;margin-left:40px">
+        Allspice, Anise, Cardamom, Cayenne, Chai, Cinnamon, Clove, Curry, Fennel, Ginger, Lavender, Mint, Pepper,
+        Saffron, Sage, Thyme</p>
+
+    <p style="font-family:Arial;color:#ff0066;font-weight: bold;margin-left:20px">  NUTTY 🥜 </p>
+    <p style="font-family:Arial;color:#d46868;margin-left:40px">
+        Almond, Cashew, Chestnut, Hazelnut, Nutmeg, Peanut, Pecan, Pistachio, Tahini, Walnut</p>
+
+    <p style="font-family:Arial;color:#ff0066;font-weight: bold;margin-left:20px">  EARTHY 🌿 </p>
+    <p style="font-family:Arial;color:#d46868;margin-left:40px">
+        Avocado, Basil, Bay_leaf, Chamomile, Cilantro, Cucumber, Garlic, Lemongrass, Oat, Parsley, Pretzel, Rhubarb,
+        Rosemary, Tarragon, Tomato, Yam, Zucchini</p>
+
+    <p style="font-family:Arial;color:#ff0066;font-weight: bold;margin-left:20px">  BOOZY 🍷 </p>
+    <p style="font-family:Arial;color:#d46868;margin-left:40px">
+        Brandy, Champagne, Rum, Tequila, Vodka, Whiskey</p>
+&nbsp;
+&nbsp;
+    <p style="font-family:Arial;color:#d46868; font-weight: bold"> ©️ Safia Khouja, safia@u.northwestern.edu, June 2020</p>
+
 
 </body>
 </html>
