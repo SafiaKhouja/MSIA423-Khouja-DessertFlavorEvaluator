@@ -18,6 +18,7 @@ def processRawInput(entry, uniqueFlavors):
     logger.info("Cleaning user input...")
     # make the user input into a list of strings. Strip of whitespace and make lowercase
     flavorCombo = [entry.flavor1.strip().lower(), entry.flavor2.strip().lower(), entry.flavor3.strip().lower()]
+    print(entry.flavor3.strip().lower())
     # Verify that at least 2 of the flavors entered were valid entries and append valid entries to the finalFlavorList
     finalFlavorCombo = []
     for flavor in flavorCombo:
@@ -61,7 +62,7 @@ def predict(finalFlavorCombo, imputedReviewCount):
     for flavor in finalFlavorCombo:
         userInput[flavor].loc[0] = 1
     prediction = model.predict(userInput[0:1])
-    return prediction
+    return np.round(prediction, 4)
 
 def topRecommendation(finalFlavorCombo, clean):
     bestRating = 0
@@ -127,8 +128,13 @@ def make_prediction(entry):
 
 
     else:
-        prediction = ["I could not recognize enough flavors to make a prediction 😞 Please verify that you entered the flavors correctly"]
-        outputFlavorList = [entry.flavor1.strip().lower(), entry.flavor2.strip().lower(), entry.flavor3.strip().lower()]
-        topRec = ["", "", "", ""]
+        prediction = ["ERROR: I couldn't recognize enough flavors to make a prediction 😢 "
+                      "Please verify that you entered at least two flavors, the flavors are spelled correctly, and the flavors exist in the dataset. "
+                      "See the flavor bank on the home page for a complete list of flavors and spellings."]
+        if entry.flavor3.strip().lower() == "":
+            outputFlavorList = entry.flavor1.strip().lower() + " + " + entry.flavor2.strip().lower()
+        else:
+            outputFlavorList = entry.flavor1.strip().lower() + " + " + entry.flavor2.strip().lower() + " + " + entry.flavor3.strip().lower()
+        topRec = ["", "", "", "", "", "Sorry, I couldn't find any popular and highly rated recipes with this flavor combination 😔"]
         secondTopRec = ["", "", "", ""]
     return [prediction[0], outputFlavorList, topRec, secondTopRec]

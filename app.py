@@ -1,4 +1,5 @@
 import traceback
+import numpy as np
 from flask import render_template, request, redirect, url_for
 import logging.config
 from flask import Flask
@@ -35,16 +36,7 @@ def index():
     Returns: rendered html template
 
     """
-    try:
-        #inputTable = db.session.query(input).limit(app.config["MAX_ROWS_SHOW"]).all()
-        #logger.debug("Index page accessed")
-        #return render_template('index.html', tracks=inputTable)
-        return render_template('index.html')
-    except:
-        traceback.print_exc()
-        logger.warning("Not able to display input table")
-        return render_template('error.html')
-
+    return render_template('index.html')
 
 @app.route('/prediction', methods=['POST'])
 def add_entry():
@@ -64,9 +56,7 @@ def add_entry():
                            topRecDessert = topRec[0], topRecURL = topRec[1], topRecRating= topRec[2], topRecReviewsCount= topRec[3],
                            secondTopRecDessert = secondTopRec[0], secondTopRecURL = secondTopRec[1],
                                 secondTopRecRating=secondTopRec[2], secondTopRecReviewsCount = secondTopRec[3])
-    #except:
-    #    logger.warning("Not able to display tracks, error page returned")
-    #    return render_template('error.html')
+
 
 
 if __name__ == '__main__':

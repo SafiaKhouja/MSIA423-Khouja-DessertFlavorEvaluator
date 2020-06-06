@@ -34,11 +34,11 @@
         <span style="color:#ff66d9">~</span> 🧁
     </h1>
 
-    <h2 style="font-family:Arial;color:#d46868"> Welcome! I'll help you decide what to bake next! 🥰 </h2>
+    <h2 style="font-family:Arial;color:#d46868"> Welcome! I'll help you decide what dessert to make next! 🥰 </h2>
+&nbsp;
 
 
     <h3 style="font-family:Arial;color:#d46868"> Enter your flavor combination below! ✨ </h3>
-    <p style="font-family:Arial;color:#d46868;"> I'll predict the rating of your flavor combination and give you recipe recommendations.</p>
       </table>
       <form action="{{ url_for('add_entry') }}" method=post class=add-entry>
       <dl>
@@ -48,6 +48,9 @@
         <input type=submit value=Enter>
       </dl>
     </form>
+    <p style="font-family:Arial;color:#d46868;"> I'll predict the rating of your flavor combination and give you recipe recommendations.</p>
+
+&nbsp;
 
     <h3 style="font-family:Arial;color:#d46868"> Make your own flavor combination by choosing two or three of the 94 flavor options below: </h3>
 
@@ -82,6 +85,17 @@
     <p style="font-family:Arial;color:#ff0066;font-weight: bold;margin-left:20px">  BOOZY 🍷 </p>
     <p style="font-family:Arial;color:#d46868;margin-left:40px">
         Brandy, Champagne, Rum, Tequila, Vodka, Whiskey</p>
+&nbsp;
+    <h3 style="font-family:Arial;color:#d46868"> About the Dessert Flavor Evaluator</h3>
+    <p style="font-family:Arial;color:#d46868;margin-left:40px"> Flavor combination ratings are predicted using a gradient
+        boosted decision tree model (XGBoost). The test R^2 of the model is 60%. </p>
+    <p style="font-family:Arial;color:#d46868;margin-left:40px"> The model was trained on a dataset of over 6500 Epicurious
+        dessert recipes. The dataset is static so the ratings given by the recommendation system might not prefectly reflect the current ratings
+        listed on Epicurious.com. </p>
+    <p style="font-family:Arial;color:#d46868;margin-left:40px"> The recommendation system identifies popular and highly-rated
+        recipes that fit the flavor combination. Recipes with less than 6 reviews will not be recommended, because the sample
+        size is too small. </p>
+
 &nbsp;
 &nbsp;
     <p style="font-family:Arial;color:#d46868; font-weight: bold"> ©️ Safia Khouja, safia@u.northwestern.edu, June 2020</p>

@@ -14,7 +14,7 @@ logging.config.fileConfig(config.LOGGING_CONFIG)
 logger = logging.getLogger('dataIngestion')
 
 def downloadData():
-    """ Downloads Epicurious Recipe data (30,000K recipes) in the .xz file format from the website hosting the data
+    """ Downloads Epicurious Recipe data (30,000 recipes) in the .xz file format from the website hosting the data
         Writes the .xz file to the rawData folder
     """
     urlRequest = requests.get(config.RECIPES_URL)

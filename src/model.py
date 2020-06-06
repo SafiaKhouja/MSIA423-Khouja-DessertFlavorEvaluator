@@ -29,15 +29,22 @@ def trainTestSplit(df):
     seed = config.SEED
     test_size = config.TEST_SIZE
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=seed)
-    return  X_train, X_test, y_train, y_test
+    return  X_train, X_test, y_train, y_test, X, y
 
 def fitModel(X_train, y_train):
     """
     """
     model = XGBRegressor()
     model = model.fit(X_train, y_train)
-    pickle.dump(model, open(config.MODEL_PATH, 'wb'))
+    #pickle.dump(model, open(config.MODEL_PATH, 'wb'))
     return model
+
+def fitFullModel(X, y):
+    model = XGBRegressor()
+    model = model.fit(X, y)
+    pickle.dump(model, open(config.MODEL_PATH, 'wb'))
+    pass
+
 
 def makePredictions(model, X_test):
     # make predictions for test data
@@ -53,7 +60,8 @@ def evalutePredictions(y_test, predictions):
 
 def run():
     df = pd.read_csv(config.FINAL_PATH)
-    X_train, X_test, y_train, y_test = trainTestSplit(df)
+    X_train, X_test, y_train, y_test, X, y = trainTestSplit(df)
     model = fitModel(X_train, y_train)
+    fitFullModel(X, y)
     predictions = makePredictions(model, X_test)
     evalutePredictions(y_test, predictions)

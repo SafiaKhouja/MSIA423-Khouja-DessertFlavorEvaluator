@@ -127,7 +127,11 @@ Note: The description in italics after every story details the predicted size of
     ```bash 
      docker run --env-file=configSafia.env --mount type=bind,source="$(pwd)"/data,target=/app/data pipeline run.py create_db
     ```
-
+3. Deploy the app 
+    ```{bash}
+   docker build -f app/Dockerfile -t dessertflavorevaluator .
+   docker run -p 5000:5000 --name app dessertflavorevaluator
+    ```
 
 ## Project Template
 <!-- toc -->
