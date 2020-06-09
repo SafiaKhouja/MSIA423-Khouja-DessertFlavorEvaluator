@@ -37,23 +37,24 @@ def decompressData(recipesCompressedPath, recipesCompressedFile, recipesDecompre
                                                     recipesDecompressedFile))
     return xzData
 
-def writeData(xzData):
+def writeData(xzData, recipesDecompressedPath, recipesDecompressedFile):
     """ Write the decompresed data to the rawData folder
     Args: xzData (list): the decompressed  data
     """
-    out_file = open(config.RECIPES_DECOMPRESSED_PATH, "w")
+    out_file = open(config.recipesDecompressedPath, "w")
     json.dump(xzData, out_file)
     out_file.close()
-    logger.info("Decompressed file {} written to {}".format(config.RECIPES_DECOMPRESSED_FILENAME,
-                                                            config.RECIPES_DECOMPRESSED_PATH))
+    logger.info("Decompressed file {} written to {}".format(recipesDecompressedFile,
+                                                            recipesDecompressedPath))
 
-def processEpicuriousRecipes(url, recipesCompressedPath, recipesCompressedFile, recipesDecompressedFile):
+def processEpicuriousRecipes(url, recipesCompressedPath, recipesCompressedFile, recipesDecompressedFile,
+                             recipesDecompressedPath):
     """ Downloads the Epicurious Recipe Data (84 MB), decompresses it, and writes it to the rawData folder
         Uses the 3 helper functions above.
     """
     downloadData(url, recipesCompressedPath, recipesCompressedFile)
     xzData = decompressData(recipesCompressedPath, recipesCompressedFile, recipesDecompressedFile)
-    writeData(xzData)
+    writeData(xzData, recipesDecompressedPath, recipesDecompressedFile)
     # Below code retained for debugging to assure the data is loaded in the correct format (must uncomment the pandas import)
     #recipes = pd.read_json(config.RECIPES_DECOMPRESSED_PATH)
     #print(len(recipes))
@@ -85,5 +86,5 @@ def run():
     """
     logger.info("Running data ingestion...")
     processEpicuriousRecipes(config.RECIPES_URL, config.RECIPES_COMPRESSED_PATH, config.RECIPES_COMPRESSED_FILENAME,
-                             config.RECIPES_DECOMPRESSED_FILENAME)
+                             config.RECIPES_DECOMPRESSED_FILENAME, config.RECIPES_DECOMPRESSED_PATH)
     uploadDataS3()
