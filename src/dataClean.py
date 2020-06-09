@@ -5,8 +5,9 @@ import json
 from sklearn.preprocessing import MultiLabelBinarizer
 from src import config
 import logging.config
+import logging
 
-logging.config.fileConfig(config.LOGGING_CONFIG)
+logging.config.fileConfig(config.LOGGING_CONFIG, disable_existing_loggers=False)
 logger = logging.getLogger('dataClean')
 
 def preliminaryClean(merged):

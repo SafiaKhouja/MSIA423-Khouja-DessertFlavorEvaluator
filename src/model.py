@@ -10,8 +10,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score
 from src import config
 import logging.config
+import logging
 
-logging.config.fileConfig(config.LOGGING_CONFIG)
+logging.config.fileConfig(config.LOGGING_CONFIG, disable_existing_loggers=False)
 logger = logging.getLogger('model')
 
 def trainTestSplit(df):

@@ -77,6 +77,7 @@ MYSQL_PASSWORD=os.environ.get('MYSQL_PASSWORD')
 MYSQL_HOST=os.environ.get('MYSQL_HOST')
 MYSQL_PORT=os.environ.get('MYSQL_PORT')
 MYSQL_DATABASE_NAME=os.environ.get('MYSQL_DATABASE_NAME')
+print(MYSQL_DATABASE_NAME)
 AWS_RDS_ENGINE_STRING = "{}://{}:{}@{}:{}/{}".format(CONNECTION_TYPE, MYSQL_USER, MYSQL_PASSWORD, MYSQL_HOST, MYSQL_PORT, MYSQL_DATABASE_NAME)
 
 # Local SQLite configurations
@@ -85,5 +86,5 @@ LOCAL_DB_PATH=PROJECT_HOME+"/data/database/"+LOCAL_DB_NAME
 SQLITE_ENGINE_STRING = 'sqlite:///{}'.format(LOCAL_DB_PATH)
 
 # Which database to build (if false, build a local SQLite database):
-BUILD_AWS_RDS=False
+BUILD_AWS_RDS=True
 

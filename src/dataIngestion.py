@@ -9,31 +9,32 @@ import json
 # Import configurations
 from src import config
 import logging.config
+import logging
 
-logging.config.fileConfig(config.LOGGING_CONFIG)
+logging.config.fileConfig(config.LOGGING_CONFIG, disable_existing_loggers=False)
 logger = logging.getLogger('dataIngestion')
 
-def downloadData():
+def downloadData(url, recipesCompressedPath, recipesCompressedFile):
     """ Downloads Epicurious Recipe data (30,000 recipes) in the .xz file format from the website hosting the data
         Writes the .xz file to the rawData folder
     """
-    urlRequest = requests.get(config.RECIPES_URL)
+    urlRequest = requests.get(url)
     try:
-        with open(config.RECIPES_COMPRESSED_PATH, 'wb') as infile:
+        with open(recipesCompressedPath, 'wb') as infile:
             infile.write(urlRequest.content)
-        logger.info("File {} downloaded from website".format(config.RECIPES_COMPRESSED_FILENAME))
+        logger.info("File {} downloaded from website".format(recipesCompressedFile))
     except FileNotFoundError as e:
         raise(e)
 
-def decompressData():
+def decompressData(recipesCompressedPath, recipesCompressedFile, recipesDecompressedFile):
     """ Decompress the Epicurious recipe data from the json.xz format to json format
     Returns: xzData (list): the decompressed  data
     """
-    xzData = lzma.open(config.RECIPES_COMPRESSED_PATH).readlines()
+    xzData = lzma.open(recipesCompressedPath).readlines()
     xzData = [z.decode('utf-8') for z in xzData]
     xzData = [json.loads(z) for z in xzData]
-    logger.info("File {} decompressed to {}".format(config.RECIPES_COMPRESSED_FILENAME,
-                                                    config.RECIPES_DECOMPRESSED_FILENAME))
+    logger.info("File {} decompressed to {}".format(recipesCompressedFile,
+                                                    recipesDecompressedFile))
     return xzData
 
 def writeData(xzData):
@@ -46,12 +47,12 @@ def writeData(xzData):
     logger.info("Decompressed file {} written to {}".format(config.RECIPES_DECOMPRESSED_FILENAME,
                                                             config.RECIPES_DECOMPRESSED_PATH))
 
-def processEpicuriousRecipes():
+def processEpicuriousRecipes(url, recipesCompressedPath, recipesCompressedFile, recipesDecompressedFile):
     """ Downloads the Epicurious Recipe Data (84 MB), decompresses it, and writes it to the rawData folder
         Uses the 3 helper functions above.
     """
-    downloadData()
-    xzData = decompressData()
+    downloadData(url, recipesCompressedPath, recipesCompressedFile)
+    xzData = decompressData(recipesCompressedPath, recipesCompressedFile, recipesDecompressedFile)
     writeData(xzData)
     # Below code retained for debugging to assure the data is loaded in the correct format (must uncomment the pandas import)
     #recipes = pd.read_json(config.RECIPES_DECOMPRESSED_PATH)
@@ -82,5 +83,7 @@ def run():
     """ Runs all the functions to perform data ingestion
         Processes Epicurious Recipes dataset and then uploading both datasets to S3
     """
-    processEpicuriousRecipes()
+    logger.info("Running data ingestion...")
+    processEpicuriousRecipes(config.RECIPES_URL, config.RECIPES_COMPRESSED_PATH, config.RECIPES_COMPRESSED_FILENAME,
+                             config.RECIPES_DECOMPRESSED_FILENAME)
     uploadDataS3()

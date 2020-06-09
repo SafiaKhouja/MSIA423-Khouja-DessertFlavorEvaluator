@@ -9,6 +9,7 @@ import sqlalchemy as sql
 import pandas as pd
 from src import config
 
+#logging.config.fileConfig(config.LOGGING_CONFIG)
 logging.config.fileConfig(config.LOGGING_CONFIG)
 logger = logging.getLogger('buildInputDB')
 

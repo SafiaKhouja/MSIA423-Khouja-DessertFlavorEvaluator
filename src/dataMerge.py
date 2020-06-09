@@ -3,31 +3,41 @@ import pandas as pd
 import numpy as np
 from src import config
 import logging.config
+import logging
 
-logging.config.fileConfig(config.LOGGING_CONFIG)
+logging.config.fileConfig(config.LOGGING_CONFIG, disable_existing_loggers=False)
 logger = logging.getLogger('dataMerge')
 
-def readPipelineData():
-    """ Reads the raw data in
+def readPipelineData(desserts_path, recipes_path):
+    """ Reads the raw data in. Raises an exception if the expected columns do not exist
+    Args:
+        desserts_path: (str) location of the desserts dataset
+        recipes_path: (str) location of the recipes dataset
     Returns:
         desserts: (pandas dataframe) Original Epicurious Dessert dataset (512 KB)
         recipes: (pandas dataframe) Dataset of all Epicurious Recipes (84.4 MB)
     """
-    desserts = pd.read_csv(config.DESSERTS_PIPELINE_PATH)
-    recipes = pd.read_json(config.RECIPES_PIPELINE_PATH)
+    desserts = pd.read_csv(desserts_path)
+    recipes = pd.read_json(recipes_path)
     logger.info("Both files loaded. Beginning data processing...")
+    return desserts, recipes
+
+def verifyColumns(desserts, recipes):
+    """ Checks that the expected columns exist. Throws an exception if they do not. """
     if "recipe_name" not in desserts.columns or "hed" not in recipes.columns:
         raise Exception("Expected column(s) not found. Data cleaning cannot be completed"
                         "The pipeline expected the column 'recipe_name' in the Desserts Dataset and the column"
                         "'hed' in the Epicurious Recipes Dataset. Please verify both raw datasets and change column "
                         "names accordingly.")
-    return desserts, recipes
+    return True
 
-def cleanDessertNames(cleanedDesserts):
+def removeDessertNameSpaces(cleanedDesserts):
     """ Helper function to clean additional spaces from the end of the dessert name strings
     These spaces cause matching problems if they are not properly removed
-    Args: cleanedDesserts (pandas dataframe) dessert data that has already undergone a couple of cleaning steps
-    Returns: cleanedDesserts (pandas dataframe) the original input dataframe, but with cleaned dessert names
+    Args:
+        cleanedDesserts (pandas dataframe) dessert data that has already undergone a couple of cleaning steps
+    Returns:
+        cleanedDesserts (pandas dataframe) the original input dataframe, but with cleaned dessert names
     """
     # Loop to clean the dessert names. Collects the cleaned names in the array dessertNamesCleaned
     dessertNamesCleaned = []
@@ -41,28 +51,34 @@ def cleanDessertNames(cleanedDesserts):
     cleanedDesserts["recipe_name"] = dessertNamesCleaned
     return cleanedDesserts
 
-def cleanDesserts(desserts):
-    """ Fully cleans the raw dessert data: removing NAs, cleaning names, and removing duplicates
-    Args: desserts: (pandas dataframe) Original Epicurious Dessert dataset
-    Returns: cleanedDesserts: (pandas dataframe) A cleaned version of the original dataset
+def preliminaryDessertClean(desserts):
+    """ Helper function to preform a preliminary clean on the dessert dataset before further processing
+        Removing NAs, cleaning names, and removing duplicates
+    Args:
+        desserts (pandas dataframe): raw dessert data
+    Returns:
+        cleanedDesserts (pandas dataframe): dessert data that has undergone preliminary cleaning
     """
     # Force dessert recipe name to be a string for future recipe name comparisons
     desserts["recipe_name"] = desserts["recipe_name"].astype(str)
-    # Remove NAs. NAs only occurs in recipe_name and flavors field, which are crucial. Imputation is not an option
+    # Remove NAs. NAs only occurs in recipe_name and flavors field, which are crucial. Imputation is not an option there
     cleanedDesserts = desserts.dropna()
     # Reset the index after dropping nan
     cleanedDesserts = cleanedDesserts.reset_index(drop=True)
+    return cleanedDesserts
+
+def fullCleanDesserts(desserts):
+    """ Wrapper function to fully clean the raw dessert data
+    Args: desserts: (pandas dataframe) Original Epicurious Dessert dataset
+    Returns: cleanedDesserts: (pandas dataframe) A completely cleaned version of the original dataset
+    """
+    cleanedDesserts = preliminaryDessertClean(desserts)
     # Clean the dessert names using helper function
-    cleanedDesserts = cleanDessertNames(cleanedDesserts)
+    cleanedDesserts = removeDessertNameSpaces(cleanedDesserts)
     # Remove duplicate recipe names (if anything appears more than once, I remove ALL occurrences)
     # This was necessary for the following matching process
-    # (ICEBOX: figure out a better way to sift through duplicates so I can retain one occurrence)
     cleanedDesserts = cleanedDesserts.drop_duplicates(subset="recipe_name", keep=False)
     cleanedDesserts = cleanedDesserts.reset_index(drop=True)
-    # Verify that every entry in the dataframe is unique (throw an exception if not)
-    # This assures the following loop will run correctly
-    if len(cleanedDesserts["recipe_name"]) != len(set(cleanedDesserts["recipe_name"])):
-        raise Exception("Desserts dataframe has non-unique recipe_names. Error in dessert data or data cleaning process")
     logger.debug("Successfully cleaned Desserts Dataset")
     return cleanedDesserts
 
@@ -85,7 +101,8 @@ def findMatchingRecipes(cleanedDesserts, cleanedRecipes):
     Args:
         cleanedDesserts: (pandas dataframe) cleaned dessert dataset
         recipes: (pandas dataframe) cleaned Epicurious Recipes dataset
-    Returns: dessert_matches (list): the indices of recipes in the recipe dataset that are matches
+    Returns:
+        dessert_matches (list): the indices of recipes in the recipe dataset that are matches
     """
     dessert_matches = []
     for r in range(len(cleanedRecipes)):
@@ -96,7 +113,7 @@ def findMatchingRecipes(cleanedDesserts, cleanedRecipes):
     return dessert_matches
 
 def merge(cleanedDesserts, cleanedRecipes):
-    """ Merges the two cleaned datasets based on the recipe names in the dessert dataset
+    """ Wrapper function to merge the two cleaned datasets based on the recipe names in the dessert dataset
         Uses findMatchingRecipes() to find the recipes from the large dataset that match the dessert dataset entries
         Note to self: the length of the resulting merged dataset *should* be 6627
     Args:
@@ -120,8 +137,9 @@ def run():
     """ Runs all the functions to merge the data.
     Cleans the individual datasets in order to merge them into a single dataset, which is then saved to data/pipeline
     """
-    desserts, recipes = readPipelineData()
-    cleanedDesserts = cleanDesserts(desserts)
+    desserts, recipes = readPipelineData(config.DESSERTS_PIPELINE_PATH, config.RECIPES_PIPELINE_PATH)
+    verifyColumns(desserts, recipes)
+    cleanedDesserts = fullCleanDesserts(desserts)
     cleanedRecipes = cleanRecipes(recipes)
     merged = merge(cleanedDesserts, cleanedRecipes)
     merged.to_csv(config.MERGED_PATH, index=False)

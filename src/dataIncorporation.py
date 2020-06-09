@@ -3,8 +3,9 @@ import boto3
 import botocore
 from src import config
 import logging.config
+import logging
 
-logging.config.fileConfig(config.LOGGING_CONFIG)
+logging.config.fileConfig(config.LOGGING_CONFIG, disable_existing_loggers=False)
 logger = logging.getLogger('dataIncorporation')
 
 def downloadDataS3():
