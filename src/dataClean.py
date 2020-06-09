@@ -10,7 +10,7 @@ import logging
 logging.config.fileConfig(config.LOGGING_CONFIG, disable_existing_loggers=False)
 logger = logging.getLogger('dataClean')
 
-def preliminaryClean(merged):
+def preliminaryClean(merged, selectedColumns):
     """ Performs a preliminary cleaning of the merged dataset.
         Selects the columns we need for the model and drops NA rows
     Args: merged (pandas dataframe): the merged dataset combining Desserts Dataset and Epicurious Recipes Dataset
@@ -18,10 +18,10 @@ def preliminaryClean(merged):
     """
     # Select only the columns we are interested in to make processing faster
     try:
-        data = merged[config.SELECTED_COLUMNS]
+        data = merged[selectedColumns]
     except Exception:
         logger.error("Expected column names not in the merged dataset. Please check that these columns exist in the raw "
-                     "data: {}.".format(config.SELECTED_COLUMNS))
+                     "data: {}.".format(config.selectedColumns))
         raise
     # Drop all NAs (recipe_name and aggregateRating should NOT be missing, but flavors has around 100 Na values)
     # (ICEBOX) the NA values in flavors existed in the original dataset, but did not get removed in my initial dropna ??
@@ -62,7 +62,7 @@ def oneHotEncode(data):
                                   index=data.index))
     return data
 
-def getUniqueFlavors(data):
+def getUniqueFlavors(data, flavorPath):
     """ Gets a list of all the unique flavors in the dataset (equivalent to the list of one-hot-encoded flavor columns)
         Saves the unique flavors as a list in json format to the data/models directory (for use in the prediction process)
     Args: data (pandas dataframe): a version of the cleaned data with fixed flavors
@@ -71,7 +71,7 @@ def getUniqueFlavors(data):
     for flavorList in data['flavors']:
         uniqueFlavors.update(flavorList)
     uniqueFlavors = sorted(uniqueFlavors)
-    with open(config.FLAVOR_PATH, 'w') as filehandle:
+    with open(flavorPath, 'w') as filehandle:
         json.dump(uniqueFlavors, filehandle)
     pass
 
@@ -81,10 +81,10 @@ def run():
     """
     logger.info("Beginning to clean the merged dataset...")
     merged = pd.read_csv(config.MERGED_PATH)
-    data= preliminaryClean(merged)
+    data= preliminaryClean(merged, config.SELECTED_COLUMNS)
     clean = fixFlavors(data)
     clean.to_csv(config.CLEAN_PATH, index = False) #Save the clean data for imputation and recommendations
-    getUniqueFlavors(clean)
+    getUniqueFlavors(clean, config.FLAVOR_PATH)
     final = oneHotEncode(clean)
     logger.debug("The cleaned dataframe has the following columns: {}".format(final.columns))
     final.to_csv(config.FINAL_PATH, index = False) #Save the one-hot-encoded data for model fitting and predictions

@@ -1,9 +1,8 @@
+#### TESTS THE DATA MERGE SCRIPT
 import pytest
 from src import dataMerge
 import pandas as pd
 import numpy as np
-
-
 
 def test_verifyColumns_happy():
     """ Tests verifyColumns can handle the expected input and verify the correct columns"""
