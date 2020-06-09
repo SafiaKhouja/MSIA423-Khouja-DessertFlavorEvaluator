@@ -5,9 +5,10 @@ import os
 DEBUG = True
 LOGGING_CONFIG = "config/logging/local.conf"
 PORT = 5000
-APP_NAME = "safia"
+APP_NAME = "DessertFlavorEvaluator"
+DB_FLAG = os.environ.get('BUILD_AWS_RDS')
 
-if config.BUILD_AWS_RDS==True:
+if DB_FLAG==True:
     CONNECTION_TYPE = "mysql+pymysql"
     MYSQL_USER = os.environ.get('MYSQL_USER')
     MYSQL_PASSWORD = os.environ.get('MYSQL_PASSWORD')
@@ -17,9 +18,7 @@ if config.BUILD_AWS_RDS==True:
     SQLALCHEMY_DATABASE_URI = "{}://{}:{}@{}:{}/{}".format(CONNECTION_TYPE, MYSQL_USER, MYSQL_PASSWORD, MYSQL_HOST,
                                                          MYSQL_PORT, MYSQL_DATABASE_NAME)
 else:
-    LOCAL_DB_NAME = "input.db"
-    LOCAL_DB_PATH = PROJECT_HOME + "/data/database/" + LOCAL_DB_NAME
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///{}'.format(LOCAL_DB_PATH)
+    SQLALCHEMY_DATABASE_URI = config.SQLITE_ENGINE_STRING
 
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 HOST = "0.0.0.0"

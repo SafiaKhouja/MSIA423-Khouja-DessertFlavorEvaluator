@@ -1,4 +1,4 @@
-#### TESTS THE DATA MERGE SCRIPT
+#### TESTS THE DATAMERGE SCRIPT
 import pytest
 from src import dataMerge
 import pandas as pd
@@ -9,6 +9,7 @@ def test_verifyColumns_happy():
     desserts = pd.DataFrame(np.array([["brownies"]]), columns=["recipe_name"])
     recipes = pd.DataFrame(np.array([["cake"]]), columns=["hed"])
     testResult = dataMerge.verifyColumns(desserts, recipes)
+    # assert test result it the boolean true
     assert testResult
 
 def test_verifyColumns_unhappy():

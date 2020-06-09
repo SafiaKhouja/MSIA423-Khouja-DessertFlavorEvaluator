@@ -13,8 +13,12 @@ logger = logging.getLogger('dataClean')
 def preliminaryClean(merged, selectedColumns):
     """ Performs a preliminary cleaning of the merged dataset.
         Selects the columns we need for the model and drops NA rows
-    Args: merged (pandas dataframe): the merged dataset combining Desserts Dataset and Epicurious Recipes Dataset
-    Returns: data (pandas dataframe): a verson of the merged dataset that has undergone preliminary cleaning
+    Args:
+        merged (pandas dataframe): the merged dataset combining Desserts Dataset and Epicurious Recipes Dataset
+        selectedColumns (list): the columns that should be included after this point
+                                columns that are needed for the prediction or recommendation system
+    Returns:
+        data (pandas dataframe): a verson of the merged dataset that has undergone preliminary cleaning
     """
     # Select only the columns we are interested in to make processing faster
     try:
@@ -24,7 +28,6 @@ def preliminaryClean(merged, selectedColumns):
                      "data: {}.".format(config.selectedColumns))
         raise
     # Drop all NAs (recipe_name and aggregateRating should NOT be missing, but flavors has around 100 Na values)
-    # (ICEBOX) the NA values in flavors existed in the original dataset, but did not get removed in my initial dropna ??
     data = data.dropna()
     data = data.reset_index(drop=True)
     return data
@@ -32,8 +35,10 @@ def preliminaryClean(merged, selectedColumns):
 def fixFlavors(data):
     """ Uses regex to fix misspellings in flavors and clarify ambiguous flavors.
         Cleans the flavors column and turns it into a list of flavors
-    Args: data (pandas dataframe): a verson of the merged dataset that has undergone preliminary cleaning
-    Returns: data (pandas dataframe): a version of the input dataframe with fixed flavors
+    Args:
+        data (pandas dataframe): a verson of the merged dataset that has undergone preliminary cleaning
+    Returns:
+        data (pandas dataframe): a version of the input dataframe with fixed flavors
     """
     ## Fix misspellings
     # Change occurrences of "tomatoe" to "tomato
@@ -55,37 +60,48 @@ def fixFlavors(data):
     return data
 
 def oneHotEncode(data):
-    """ One hot encodes all of the flavors in the data using the MultiLabelBianizer from sklearn.preprocessing """
+    """ One hot encodes all of the flavors in the data using the MultiLabelBinarizer from sklearn.preprocessing """
     mlb = MultiLabelBinarizer()
     data = data.join(pd.DataFrame(mlb.fit_transform(data.pop('flavors')),
                                   columns=mlb.classes_,
                                   index=data.index))
     return data
 
-def getUniqueFlavors(data, flavorPath):
+def getUniqueFlavors(data):
     """ Gets a list of all the unique flavors in the dataset (equivalent to the list of one-hot-encoded flavor columns)
         Saves the unique flavors as a list in json format to the data/models directory (for use in the prediction process)
-    Args: data (pandas dataframe): a version of the cleaned data with fixed flavors
+    Args:
+        data (pandas dataframe): a version of the cleaned data with fixed flavors
+        flavorPath (str): location where the list of unique flavors should be stored
+    Returns:
+        none
     """
     uniqueFlavors = set()
     for flavorList in data['flavors']:
+        # Use update to unclude only the unique values in the set
         uniqueFlavors.update(flavorList)
     uniqueFlavors = sorted(uniqueFlavors)
-    with open(flavorPath, 'w') as filehandle:
-        json.dump(uniqueFlavors, filehandle)
-    pass
+    return uniqueFlavors
 
 def run():
     """ Runs all the functions to clean the merged dataset
         Performs a preliminary clean, cleans the flavors column, and one-hot encodes the flavors
     """
     logger.info("Beginning to clean the merged dataset...")
+    # Load the merged data and perform a preliminary clean
     merged = pd.read_csv(config.MERGED_PATH)
     data= preliminaryClean(merged, config.SELECTED_COLUMNS)
+    # Clean the dataset by fixing the flavors.
     clean = fixFlavors(data)
-    clean.to_csv(config.CLEAN_PATH, index = False) #Save the clean data for imputation and recommendations
-    getUniqueFlavors(clean, config.FLAVOR_PATH)
+    # Save the dataset at this stage for recommendations
+    clean.to_csv(config.CLEAN_PATH, index = False)
+    # Get the unique list of flavors and save them to the model directory
+    uniqueFlavors = getUniqueFlavors(clean)
+    with open(config.FLAVOR_PATH, 'w') as filehandle:
+        json.dump(uniqueFlavors, filehandle)
+    # One hot encode the cleaned data
     final = oneHotEncode(clean)
     logger.debug("The cleaned dataframe has the following columns: {}".format(final.columns))
-    final.to_csv(config.FINAL_PATH, index = False) #Save the one-hot-encoded data for model fitting and predictions
+    # Save the one hot encoded data for model fitting and predictions
+    final.to_csv(config.FINAL_PATH, index = False)
     logger.info("Successfully cleaned the merged dataset. The data can now be fit to a model.")

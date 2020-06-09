@@ -10,7 +10,15 @@ logger = logging.getLogger('dataIncorporation')
 
 def downloadDataS3(awsPublicKey, awsSecretKey, S3BucketName, dessertsPipelineFile, dessertsPipelinePath,
                    recipesPipelineFile, recipesPipelinePath):
-    """ Download both datasets from S3"""
+    """ Download both datasets from S3
+    awsPublicKey (str): public key for AWS and S3 bucket
+    awsSecretKey (str): secret key for AWS and S3 bucket
+    S3BucketName (str): name of the S3 bucket
+    dessertsPipelineFile (str): name of the desserts data after it has been downloaded from S3
+    dessertsPipelinePath (str): directory of the dessert data after it has been downloaded from S3
+    recipesPipelinePath (str): name of the recipes data after it has been downloaded from S3
+    recipesPipelinePath (str): directory of the recipes data after it has been downloaded from S3
+    """
     # Establish s3 resource connection
     try:
         s3 = boto3.resource("s3", aws_access_key_id=awsPublicKey, aws_secret_access_key=awsSecretKey)

@@ -85,5 +85,5 @@ LOCAL_DB_PATH=PROJECT_HOME+"/data/database/"+LOCAL_DB_NAME
 SQLITE_ENGINE_STRING = 'sqlite:///{}'.format(LOCAL_DB_PATH)
 
 # Which database to build (if false, build a local SQLite database):
-BUILD_AWS_RDS=True
+BUILD_AWS_RDS=os.environ.get('BUILD_AWS_RDS')
 
