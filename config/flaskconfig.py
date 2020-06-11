@@ -3,7 +3,7 @@ from src import buildInputDB
 import os
 
 DEBUG = True
-LOGGING_CONFIG = "config/logging/local.conf"
+LOGGING_CONFIG = "config/local.conf"
 PORT = 5000
 APP_NAME = "DessertFlavorEvaluator"
 DB_FLAG = config.BUILD_AWS_RDS

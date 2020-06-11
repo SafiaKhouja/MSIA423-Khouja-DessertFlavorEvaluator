@@ -1,0 +1,1 @@
+he R^2 of this model is: 0.5846917168887975

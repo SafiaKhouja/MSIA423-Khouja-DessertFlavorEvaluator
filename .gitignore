@@ -17,3 +17,5 @@ Icon?
 .Rhistory
 configSafia.env
 notebooks/develop/buildDessertDB.py.orig
+!data/pipeline/
+!data/model/
