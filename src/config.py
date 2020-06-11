@@ -33,7 +33,6 @@ RECIPES_DECOMPRESSED_PATH=PROJECT_HOME+ingestion['recipesPath']+RECIPES_DECOMPRE
 
 # S3 configurations
 S3_BUCKET_NAME=S3['S3BucketName']
-print(S3_BUCKET_NAME)
 
 # AWS configurations
 AWS_PUBLIC_KEY=os.environ.get('AWS_ACCESS_KEY_ID')

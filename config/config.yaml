@@ -9,7 +9,7 @@ AWSRDSDatabase:
   mysqlHost: 'msia423safia.ceqsmly1rv8f.us-east-2.rds.amazonaws.com'
   mysqlPort: 3306
   mysqlDatabaseName: 'msia423safiadb'
-  buildAWSRDS: True
+  buildAWSRDS: False
 modelArtifacts:
   metricsName: "metrics.txt"
   modelPath: "/data/model/"
