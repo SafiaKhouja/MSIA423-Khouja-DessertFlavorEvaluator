@@ -10,6 +10,7 @@ AWSRDS = config['AWSRDSDatabase']
 SQLite = config['SQLite']
 modelArtifacts = config['modelArtifacts']
 final = config['finalData']
+ingestion = config["rawData"]
 
 
 
@@ -18,13 +19,13 @@ LOGGING_CONFIG = path.join(PROJECT_HOME, 'config/logging.conf')
 
 ########## DATA INGESTION CONFIGS ##########
 # File configurations for ingestion of  Dessert Dataset (from Kaggle) into the data/external/rawData directory
-DESSERTS_FILENAME="desserts.csv"
-DESSERTS_PATH=PROJECT_HOME+"/data/external/rawData/"+DESSERTS_FILENAME
+DESSERTS_FILENAME=ingestion['dessertsName']
+DESSERTS_PATH=PROJECT_HOME+ingestion['dessertsPath']+DESSERTS_FILENAME
 
 # File configurations for ingestion of full Recipe Dataset into the data/external/rawData directory
 RECIPES_URL="https://archive.org/download/recipes-en-201706/epicurious-recipes.json.xz"
-RECIPES_COMPRESSED_FILENAME="epicurious-recipes.json.xz"
-RECIPES_COMPRESSED_PATH=PROJECT_HOME+"/data/external/rawData/"+RECIPES_COMPRESSED_FILENAME
+RECIPES_COMPRESSED_FILENAME=ingestion['recipesName']
+RECIPES_COMPRESSED_PATH=PROJECT_HOME+ingestion['recipesPath']+RECIPES_COMPRESSED_FILENAME
 RECIPES_DECOMPRESSED_FILENAME="epicurious-recipes.json"
 RECIPES_DECOMPRESSED_PATH=PROJECT_HOME+"/data/external/rawData/"+RECIPES_DECOMPRESSED_FILENAME
 

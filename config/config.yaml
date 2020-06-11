@@ -18,6 +18,11 @@ modelArtifacts:
 finalData:
   finalName: "final.csv"
   finalPath: "/data/pipeline/"
+rawData:
+  dessertsName: "desserts.csv"
+  dessertsPath: "/data/external/rawData/"
+  recipesName: "epicurious-recipes.json.xz"
+  recipesPath: "/data/external/rawData/"
 
 
 

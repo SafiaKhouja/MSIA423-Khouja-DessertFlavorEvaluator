@@ -104,6 +104,7 @@ def predict(finalFlavorCombo, reviewCount):
     prediction = model.predict(userInput[0:1])
     return np.round(prediction, 4)
 
+
 def topRecommendation(finalFlavorCombo, clean):
     """ Finds the best rated recipe with the given flavor combo.
         Args:
