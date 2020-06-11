@@ -69,7 +69,7 @@ def oneHotEncode(data):
 
 def getUniqueFlavors(data):
     """ Gets a list of all the unique flavors in the dataset (equivalent to the list of one-hot-encoded flavor columns)
-        Saves the unique flavors as a list in json format to the data/models directory (for use in the prediction process)
+        Saves the unique flavors as a list in json format to the data/model directory (for use in the prediction process)
     Args:
         data (pandas dataframe): a version of the cleaned data with fixed flavors
         flavorPath (str): location where the list of unique flavors should be stored

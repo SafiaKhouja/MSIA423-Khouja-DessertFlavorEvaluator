@@ -26,23 +26,6 @@ class input(Base):
         input_repr = "<input(flavor1='%s', flavor2='%s', flavor3='%s')>"
         return input_repr % (self.flavor1, self.flavor2, self.flavor3)
 
-def establishEngineString(buildAwsRdsFlag, awsRdsEngineString, sqliteEngineString):
-    """ Helper function to determine which database to build based on the AWS RDS flag
-    Args:
-        buildAwsRdsFlag (boolean): whether or not to build AWS RDS database or local sqlite database
-                                   passed as an environment variable
-                                   if true build AWS RDS database, if false build local sqlite database
-        awsRdsEngineString (str): engine string to connect to AWS RDS
-        sqliteEngineString (str): engine string to establish a local sqlite connection
-    """
-    if buildAwsRdsFlag == True:
-        engine_string = awsRdsEngineString
-    else:
-        engine_string = sqliteEngineString
-        print("nope")
-    logger.info("Connecting to ".format(engine_string))
-    return engine_string
-
 def add_input(args):
     """Seeds an existing database with additional songs.
     Args:
@@ -50,8 +33,8 @@ def add_input(args):
     Returns:
         none
     """
-    engine_string = establishEngineString(os.environ.get('BUILD_AWS_RDS'), config.AWS_RDS_ENGINE_STRING, config.SQLITE_ENGINE_STRING)
-    engine = sql.create_engine(engine_string)
+    engine = sql.create_engine(args.engine_string)
+    logger.info("The user input was successfully added to the database located at: {}".format(args.engine_string))
     Session = sessionmaker(bind=engine)
     session = Session()
     userInput = input(flavor1=args.flavor1, flavor2=args.flavor2, flavor3=args.flavor3)
@@ -60,14 +43,14 @@ def add_input(args):
     logger.info("Flavor combination %s + %s + %s added to database", args.flavor1, args.flavor2, args.flavor3)
 
 def create_db(args):
-    """Creates a database with the data model given by obj:`apps.models.Track`
+    """Creates a database with the data model given by obj:`apps.model.Track`
     Args:
         Argparse args - should include args.flavor1, args.flavor2. args.flavor3 is optional
     Returns:
         none
     """
-    engine_string = establishEngineString(config.BUILD_AWS_RDS,config.AWS_RDS_ENGINE_STRING, config.SQLITE_ENGINE_STRING)
-    engine = sql.create_engine(engine_string)
+    engine = sql.create_engine(args.engine_string)
+    logger.info("The user input was successfully established at: {}".format(args.engine_string))
     Base.metadata.create_all(engine)
     Session = sessionmaker(bind=engine)
     session = Session()

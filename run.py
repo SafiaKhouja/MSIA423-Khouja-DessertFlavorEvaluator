@@ -15,6 +15,8 @@ if __name__ == '__main__':
     sb_create.add_argument("--flavor1", default="chocolate", help="First Flavor")
     sb_create.add_argument("--flavor2", default="vanilla", help="Second Flavor")
     sb_create.add_argument("--flavor3", default="almond", help="Third Flavor")
+    sb_create.add_argument("--engine_string", default=SQLALCHEMY_DATABASE_URI,
+                           help="SQLAlchemy connection URI for database")
     sb_create.set_defaults(func=create_db)
 
     # Sub-parser for ingesting new data
@@ -22,6 +24,8 @@ if __name__ == '__main__':
     sb_ingest.add_argument("--flavor1", default="chocolate", help="First flavor to be added")
     sb_ingest.add_argument("--flavor2", default="vanilla", help="Second flavor to be added")
     sb_ingest.add_argument("--flavor3",  default="almond", help="Third flavor to be added")
+    sb_ingest.add_argument("--engine_string", default=SQLALCHEMY_DATABASE_URI,
+                           help="SQLAlchemy connection URI for database")
     sb_ingest.set_defaults(func=add_input)
 
     args = parser.parse_args()

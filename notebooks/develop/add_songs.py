@@ -1,5 +1,5 @@
 # from app import db
-# from app.models import Track
+# from app.model import Track
 import argparse
 import logging.config
 import yaml
@@ -34,7 +34,7 @@ class Tracks(Base):
 
 
 def create_db(args):
-    """Creates a database with the data model given by obj:`apps.models.Track`
+    """Creates a database with the data model given by obj:`apps.model.Track`
 
     Args:
         args: Argparse args - should include args.title, args.artist, args.album

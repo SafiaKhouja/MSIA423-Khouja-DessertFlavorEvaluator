@@ -15,8 +15,8 @@ logger = logging.getLogger('driver')
 #  below can be commented out to speed up the pipeline building process in case certain functions are to be
 #  examined in depth
 if __name__ == "__main__":
-    #dataIngestion.run()
-    #dataIncorporation.run()
-    #dataMerge.run()
+    dataIngestion.run()
+    dataIncorporation.run()
+    dataMerge.run()
     dataClean.run()
-    #model.run()
+    model.run()

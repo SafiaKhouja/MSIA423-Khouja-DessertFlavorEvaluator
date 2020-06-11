@@ -1,6 +1,12 @@
 ### CONFIGURATIONS FOR PYTHON SCRIPTS IN THE SRC DIRECTORY
 import os
 from os import path
+import yaml
+
+with open('src/config.yaml', 'r') as f:
+    config = yaml.load(f, Loader=yaml.FullLoader)
+user = config['userConfigs']
+
 PROJECT_HOME = path.dirname(path.dirname(path.abspath(__file__)))
 LOGGING_CONFIG = path.join(PROJECT_HOME, 'config/logging.conf')
 
@@ -17,11 +23,12 @@ RECIPES_DECOMPRESSED_FILENAME="epicurious-recipes.json"
 RECIPES_DECOMPRESSED_PATH=PROJECT_HOME+"/data/external/rawData/"+RECIPES_DECOMPRESSED_FILENAME
 
 # S3 configurations
-S3_BUCKET_NAME=os.environ.get('S3_BUCKET_NAME')
+S3_BUCKET_NAME=user['S3BucketName']
+print(S3_BUCKET_NAME)
 
 # AWS configurations
-AWS_PUBLIC_KEY=os.environ.get('AWS_PUBLIC_KEY')
-AWS_SECRET_KEY=os.environ.get('AWS_SECRET_KEY')
+AWS_PUBLIC_KEY=os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_KEY=os.environ.get('AWS_SECRET_ACCESS_KEY')
 
 ########## DATA INCORPORATION CONFIGS ##########
 # File configurations for S3 download of Dessert Dataset into the data/external/rawData directory
@@ -69,14 +76,19 @@ MODEL_PATH=PROJECT_HOME+"/data/model/"+MODEL_FILENAME
 COLUMN_FILENAME="column.txt"
 COLUMN_PATH=PROJECT_HOME+"/data/model/"+COLUMN_FILENAME
 
+# Resulting metrics (R^2) text file path
+METRICS_FILENAME = "metrics.txt"
+METRICS_PATH=PROJECT_HOME+"/data/model/"+METRICS_FILENAME
+
+
 ########## USER INPUT DATABASE CONFIGS ##########
 # AWS RDS MYSQL configurations
 CONNECTION_TYPE="mysql+pymysql"
-MYSQL_USER=os.environ.get('MYSQL_USER')
-MYSQL_PASSWORD=os.environ.get('MYSQL_PASSWORD')
-MYSQL_HOST=os.environ.get('MYSQL_HOST')
-MYSQL_PORT=os.environ.get('MYSQL_PORT')
-MYSQL_DATABASE_NAME=os.environ.get('MYSQL_DATABASE_NAME')
+MYSQL_USER=user['mysqlUser']
+MYSQL_PASSWORD=user['mysqlPassword']
+MYSQL_HOST=user['mysqlHost']
+MYSQL_PORT=user['mysqlPort']
+MYSQL_DATABASE_NAME=user['mysqlDatabaseName']
 AWS_RDS_ENGINE_STRING = "{}://{}:{}@{}:{}/{}".format(CONNECTION_TYPE, MYSQL_USER, MYSQL_PASSWORD, MYSQL_HOST, MYSQL_PORT, MYSQL_DATABASE_NAME)
 
 # Local SQLite configurations
@@ -85,5 +97,5 @@ LOCAL_DB_PATH=PROJECT_HOME+"/data/database/"+LOCAL_DB_NAME
 SQLITE_ENGINE_STRING = 'sqlite:///{}'.format(LOCAL_DB_PATH)
 
 # Which database to build (if false, build a local SQLite database):
-BUILD_AWS_RDS=os.environ.get('BUILD_AWS_RDS')
+BUILD_AWS_RDS=user['buildAWSRDS']
 

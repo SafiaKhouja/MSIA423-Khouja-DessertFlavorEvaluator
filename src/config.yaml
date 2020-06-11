@@ -1,0 +1,11 @@
+userConfigs:
+  S3BucketName: 'msia423safia'
+  mysqlUser: 'admin'
+  mysqlPassword: 'Database2020'
+  mysqlHost: 'msia423safia.ceqsmly1rv8f.us-east-2.rds.amazonaws.com'
+  mysqlPort: 3306
+  mysqlDatabaseName: 'msia423safiadb'
+  buildAWSRDS: False
+
+
+
