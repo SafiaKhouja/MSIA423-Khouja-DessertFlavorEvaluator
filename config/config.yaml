@@ -15,6 +15,11 @@ modelArtifacts:
   modelPath: "/data/model/"
   modelObject: "modelObject.sav"
   modelObjectPath: "/data/model/"
+  leaveOutColumns: ["recipe_name", "aggregateRating", "url", 'willMakeAgainPct']
+  columnName: "column.txt"
+  columnPath: "/data/model/"
+  seed: 7177135
+  testSize: 0.25
 finalData:
   finalName: "final.csv"
   finalPath: "/data/pipeline/"
@@ -23,6 +28,20 @@ rawData:
   dessertsPath: "/data/external/rawData/"
   recipesName: "epicurious-recipes.json.xz"
   recipesPath: "/data/external/rawData/"
+  recipesDecompressedName: "epicurious-recipes.json"
+downloadData:
+  dessertsNameDownload: "desserts.csv"
+  dessertsPathDownload: "/data/pipeline/rawData/"
+  recipesNameDownload: "epicurious-recipes.json"
+  recipesPathDownload: "/data/pipeline/rawData/"
+processing:
+  mergedName: "merged.csv"
+  mergedPath: "/data/pipeline/"
+  cleanName: "clean.csv"
+  cleanPath: "/data/pipeline/"
+  selectedColumns: ['recipe_name', 'aggregateRating', 'flavors', 'willMakeAgainPct', 'reviewsCount', "url"]
+  flavorName: "flavors.txt"
+  flavorPath: "/data/model/"
 
 
 

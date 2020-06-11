@@ -62,7 +62,7 @@ Note: The description in italics after every story details the predicted size of
 
 ## Final Deliverable  
 1. Build the model pipeline 
-    - (Optional) Alter some of the default configurations in the .yaml to suit your needs. Configurations such as the S3 database name, 
+    - (Optional) Alter some or all of the default configurations in the .yaml in the config folder to suit your needs. Configurations such as the S3 database name, 
     SQLite directory, and file locations can be changed. Make sure that you never include spaces between the variable name 
     and the variable value in the .yaml file. 
     - Set your AWS credentials as environment variables to enable S3 access. Enter the following lines into your command 
