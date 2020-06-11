@@ -62,8 +62,11 @@ Note: The description in italics after every story details the predicted size of
 
 ## Final Deliverable  
 1. Build the model pipeline 
+    - (Optional) Alter some of the default configurations in the .yaml to suit your needs. Configurations such as the S3 database name, 
+    SQLite directory, and file locations can be changed. Make sure that you never include spaces between the variable name 
+    and the variable value in the .yaml file. 
     - Set your AWS credentials as environment variables to enable S3 access. Enter the following lines into your command 
-    line after replacing the <AWS_access_key_id> and <AWS_secret_access_key} with your own credentials. A 
+    line after replacing the <AWS_access_key_id> and <AWS_secret_access_key} with your own credentials. 
         ```bash
         export AWS_ACCESS_KEY_ID=<AWS_access_key_id> 
         export AWS_SECRET_ACCESS_KEY=<AWS_secret_access_key}
@@ -80,11 +83,14 @@ Note: The description in italics after every story details the predicted size of
    
 2. Deploy the app 
     - (Optional) Set your SQLite URI for the SQL Alchemy engine string as an environment variable. Replace <SQL_alchemy_database_URI>
-    with whatever database URI you want to use and run the following line in your command line. If you do not set this, the app will 
-    automatically build a SQLite database at the location specified in the configuration file
-        ```{bash}
+    with whatever database URI you want to use and run the following line in your command line. 
+    `   ``{bash}
         export SQLALCHEMY_DATABASE_URI=<SQL_alchemy_database_URI> 
         ```
+        - If you do not set the SQL_ALCHEMY_DATABASE_URI, the app will automatically build a SQLite database at the 
+      location specified in the configuration file. You can change the directory location of the SQLite database in the SQLite section of the .yaml file
+        - If you would prefer to set the configurations for your AWS RDS database within the code, fill in the 
+      configurations in the AWSRDSDatabase section of the file. Make sure to set the buildAWSRDS flag in the same section to True to build to AWS RDS instead of local SQLite.
     - Run the app by entering the following lines into your command line. Each time that you run this command after the first deployment, you will have to 
       change the name of the container. The name of the container is the second to last word, the word to the left 
       of dessertflavorevaluator. In the command provided below the container is named "app", but this name can be changed to any 
@@ -116,35 +122,20 @@ Note: The description in italics after every story details the predicted size of
 │   ├── Dockerfile                    <- Dockerfile for building image to run app  
 │
 ├── config                            <- Directory for configuration files 
-│   ├── logging/                      <- Configuration of flask configs
-│   ├── flaskconfig.py                <- Configurations for Flask API 
-│   ├── logging.py                    <- Normal logging configurations
 │
-├── data                              <- Folder that contains data used or generated. Only the external/ and sample/ subdirectories are tracked by git. 
-│   ├── external/                     <- External data sources, usually reference data,  will be synced with git
-│   ├── sample/                       <- Sample data used for code development and testing, will be synced with git
+├── data                              <- Folder that contains data used or generated
+│   ├── database/                     <- Location of the local SQLite database
+│   ├── external/                     <- Data downloaded from the internet (either through code or manually)
+│   ├── model/                        <- Trained model object, model artifacts, and trained model metrics
 │
-├── deliverables/                     <- Any white papers, presentations, final work products that are presented or delivered to a stakeholder 
+├── deliverables/                     <- Presentation
 │
-├── docs/                             <- Sphinx documentation based on Python docstrings. Optional for this project. 
+├── src/                              <- Source code for the project 
 │
-├── figures/                          <- Generated graphics and figures to be used in reporting, documentation, etc
-│
-├── models/                           <- Trained model objects (TMOs), model predictions, and/or model summaries
-│
-├── notebooks/
-│   ├── archive/                      <- Develop notebooks no longer being used.
-│   ├── deliver/                      <- Notebooks shared with others / in final state
-│   ├── develop/                      <- Current notebooks being used in development.
-│   ├── template.ipynb                <- Template notebook for analysis with useful imports, helper functions, and SQLAlchemy setup. 
-│
-├── reference/                        <- Any reference material relevant to the project
-│
-├── src/                              <- Source data for the project 
-│
-├── test/                             <- Files necessary for running model tests (see documentation below) 
+├── test/                             <- Files necessary for running model tests 
 │
 ├── app.py                            <- Flask wrapper for running the model 
-├── run.py                            <- Simplifies the execution of one or more of the src scripts  
+├── run.py                            <- Simplifies the execution of of some of the src scripts for app deployment
+├── driver.py                         <- Simplifies the execution of the src scripts for the model pipeline 
 ├── requirements.txt                  <- Python package dependencies 
 ```

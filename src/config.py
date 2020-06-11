@@ -3,9 +3,15 @@ import os
 from os import path
 import yaml
 
-with open('src/config.yaml', 'r') as f:
+with open('config/config.yaml', 'r') as f:
     config = yaml.load(f, Loader=yaml.FullLoader)
-user = config['userConfigs']
+S3 = config['S3Buckets']
+AWSRDS = config['AWSRDSDatabase']
+SQLite = config['SQLite']
+modelArtifacts = config['modelArtifacts']
+final = config['finalData']
+
+
 
 PROJECT_HOME = path.dirname(path.dirname(path.abspath(__file__)))
 LOGGING_CONFIG = path.join(PROJECT_HOME, 'config/logging.conf')
@@ -23,7 +29,7 @@ RECIPES_DECOMPRESSED_FILENAME="epicurious-recipes.json"
 RECIPES_DECOMPRESSED_PATH=PROJECT_HOME+"/data/external/rawData/"+RECIPES_DECOMPRESSED_FILENAME
 
 # S3 configurations
-S3_BUCKET_NAME=user['S3BucketName']
+S3_BUCKET_NAME=S3['S3BucketName']
 print(S3_BUCKET_NAME)
 
 # AWS configurations
@@ -57,8 +63,8 @@ FLAVOR_FILENAME="flavors.txt"
 FLAVOR_PATH=PROJECT_HOME+"/data/model/"+FLAVOR_FILENAME
 
 # File configuration for the final data (cleaned data after it has been one-hot-encoded and is model ready)
-FINAL_FILENAME="final.csv"
-FINAL_PATH=PROJECT_HOME+"/data/pipeline/"+FINAL_FILENAME
+FINAL_FILENAME=final['finalName']
+FINAL_PATH=PROJECT_HOME+final['finalPath']+FINAL_FILENAME
 
 ########## MODEL CONFIGS ##########
 # Configurations for running the model
@@ -69,33 +75,33 @@ TEST_SIZE=0.25
 LEAVE_OUT_COLUMNS=["recipe_name", "aggregateRating", "url", 'willMakeAgainPct']
 
 # Pickle model object
-MODEL_FILENAME="modelObject.sav"
-MODEL_PATH=PROJECT_HOME+"/data/model/"+MODEL_FILENAME
+MODEL_FILENAME=modelArtifacts['modelObject']
+MODEL_PATH=PROJECT_HOME+modelArtifacts['modelObjectPath'] +MODEL_FILENAME
 
 # Column name text file
 COLUMN_FILENAME="column.txt"
 COLUMN_PATH=PROJECT_HOME+"/data/model/"+COLUMN_FILENAME
 
 # Resulting metrics (R^2) text file path
-METRICS_FILENAME = "metrics.txt"
-METRICS_PATH=PROJECT_HOME+"/data/model/"+METRICS_FILENAME
+METRICS_FILENAME =modelArtifacts['metricsName']
+METRICS_PATH=PROJECT_HOME+modelArtifacts['modelPath']+METRICS_FILENAME
 
 
 ########## USER INPUT DATABASE CONFIGS ##########
 # AWS RDS MYSQL configurations
 CONNECTION_TYPE="mysql+pymysql"
-MYSQL_USER=user['mysqlUser']
-MYSQL_PASSWORD=user['mysqlPassword']
-MYSQL_HOST=user['mysqlHost']
-MYSQL_PORT=user['mysqlPort']
-MYSQL_DATABASE_NAME=user['mysqlDatabaseName']
+MYSQL_USER=AWSRDS['mysqlUser']
+MYSQL_PASSWORD=AWSRDS['mysqlPassword']
+MYSQL_HOST=AWSRDS['mysqlHost']
+MYSQL_PORT=AWSRDS['mysqlPort']
+MYSQL_DATABASE_NAME=AWSRDS['mysqlDatabaseName']
 AWS_RDS_ENGINE_STRING = "{}://{}:{}@{}:{}/{}".format(CONNECTION_TYPE, MYSQL_USER, MYSQL_PASSWORD, MYSQL_HOST, MYSQL_PORT, MYSQL_DATABASE_NAME)
 
 # Local SQLite configurations
-LOCAL_DB_NAME="input.db"
-LOCAL_DB_PATH=PROJECT_HOME+"/data/database/"+LOCAL_DB_NAME
+LOCAL_DB_NAME=SQLite['DBName']
+LOCAL_DB_PATH=PROJECT_HOME+SQLite['DBPath']+LOCAL_DB_NAME
 SQLITE_ENGINE_STRING = 'sqlite:///{}'.format(LOCAL_DB_PATH)
 
 # Which database to build (if false, build a local SQLite database):
-BUILD_AWS_RDS=user['buildAWSRDS']
+BUILD_AWS_RDS=AWSRDS['buildAWSRDS']
 

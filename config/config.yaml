@@ -1,0 +1,23 @@
+S3Buckets:
+  S3BucketName: 'msia423safia'
+SQLite:
+  DBName: 'input.db'
+  DBPath: '/data/database/'
+AWSRDSDatabase:
+  mysqlUser: 'admin'
+  mysqlPassword: 'Database2020'
+  mysqlHost: 'msia423safia.ceqsmly1rv8f.us-east-2.rds.amazonaws.com'
+  mysqlPort: 3306
+  mysqlDatabaseName: 'msia423safiadb'
+  buildAWSRDS: True
+modelArtifacts:
+  metricsName: "metrics.txt"
+  modelPath: "/data/model/"
+  modelObject: "modelObject.sav"
+  modelObjectPath: "/data/model/"
+finalData:
+  finalName: "final.csv"
+  finalPath: "/data/pipeline/"
+
+
+
